@@ -4,6 +4,7 @@
 
 - TBD in the diagram: Bluetooth proxy for call transcription.
 - Manual switch should be one of those really funky buttons with a display on them so that they can reflect the current state as it changes.
+  - The [NKK `ISC15ANP4`][nkk-button] might work.
 
 ## Diagram
 
@@ -80,3 +81,5 @@ flowchart TB
   CloudStorage --> Phone
   ControlUnit == "Ultrasonic shutdown" ==> Desktop
 ```
+
+[nkk-button]: https://www.nkkswitches.com/wp-content/themes/impress-blank/search/inc/part.php?part_no=ISC15ANP4
