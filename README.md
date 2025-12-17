@@ -1,8 +1,9 @@
 # Pendant
 
-## TBD
+## Notes
 
-Bluetooth proxy for call transcription
+- TBD in the diagram: Bluetooth proxy for call transcription.
+- Manual switch should be one of those really funky buttons with a display on them so that they can reflect the current state as it changes.
 
 ## Diagram
 
@@ -28,19 +29,27 @@ flowchart TB
       PendantGroup
       DesktopGroup
   end
-  subgraph TVGuard["TV/Music Guard"]
+  subgraph TVGuard["TV Guard"]
     Passthrough["Audio/HDMI/Analog Pass-through"]
     LightSensor["Light Sensor"]
-    ControlUnit["Control Unit"]
+  end
+  subgraph MusicGuard["Music Guard"]
+    MPassthrough["Audio/HDMI/Analog Pass-through"]
+  end
+  subgraph ManualGuard["Manual Switch"]
+    Switch["Off/On Button"]
   end
   subgraph Control["Capture Control"]
     TVGuard
+    MusicGuard
+    ManualGuard
+    ControlUnit["Control Unit"]
   end
   subgraph Aggregation["Aggregation"]
     Phone["Phone App"]
   end
   subgraph Processing["Processing"]
-    Decision>"LAN broadcast active?"]
+    Decision{"LAN broadcast active?"}
     LocalProc["Local Processing (Whisper + GPT-OSS)"]
     CloudProc["Cloud Processing"]
   end
@@ -48,13 +57,20 @@ flowchart TB
     LocalStorage["Local Storage"]
     CloudStorage["Cloud Storage"]
   end
-  Desktop -- Ultrasonic shutdown ---> Pendant
-  ControlUnit -- Ultrasonic shutdown ---> Pendant
-  Passthrough -- Detects audio --> ControlUnit
-  LightSensor -- Detects TV light --> ControlUnit
-  Pendant -- Records → SD --> PendantSD
-  Desktop -- Records → SD --> DesktopSD
+
+  %% Connections
+  Desktop == "Ultrasonic shutdown" ==> Pendant
+  ControlUnit == "Ultrasonic shutdown" ==> Pendant
+  Passthrough -- "Detects audio" --> ControlUnit
+  LightSensor -- "Detects TV light" --> ControlUnit
+  MPassthrough -- "Detects audio" --> ControlUnit
+  Switch -- "Manually controlled" --> ControlUnit
+  Pendant -- "Records → SD" --> PendantSD
+  Desktop -- "Records → SD" --> DesktopSD
   Pendant -- Bluetooth --> Phone
+  Pendant -. "Optional: WiFi" .-> Decision
+  Desktop -- WiFi --> Decision
+  Phone -- "Bluetooth Recordings" --> Decision
   Decision -- Yes --> LocalProc
   Decision -- No --> CloudProc
   LocalProc --> LocalStorage
@@ -62,8 +78,5 @@ flowchart TB
   LocalStorage -. Optional .-> CloudStorage
   LocalStorage --> Phone
   CloudStorage --> Phone
-  Pendant -. Optional: WiFi .-> Decision
-  Desktop -- WiFi --> Decision
-  ControlUnit == Ultrasonic shutdown ==> Desktop
-  Phone -- Bluetooth Recordings --> Decision
+  ControlUnit == "Ultrasonic shutdown" ==> Desktop
 ```
