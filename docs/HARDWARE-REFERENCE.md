@@ -16,7 +16,7 @@ The M5 Capsule is a compact development kit featuring:
 
 ## Block Diagram
 
-```
+```plaintext
 ┌─────────────────────────────────────────────────────┐
 │                    M5 Capsule                       │
 │                                                     │
@@ -174,7 +174,7 @@ The M5 Capsule is a compact development kit featuring:
 
 ### I2S Format
 
-```
+```plaintext
 Left Channel (Data):
 WS LOW: Microphone data (24-bit PCM)
 Bit 31: MSB
@@ -288,7 +288,7 @@ WS HIGH: Zeros
 
 ### I2S Audio Path
 
-```
+```plaintext
 ESP32-S3          SPM1423
   GPIO5  ───────> SCK (Serial Clock)
   GPIO7  ───────> WS  (Word Select)
@@ -299,7 +299,7 @@ ESP32-S3          SPM1423
 
 ### SPI SD Card Path
 
-```
+```plaintext
 ESP32-S3          SD Card
   GPIO1  ───────> CLK  (Clock)
   GPIO2  ───────> CMD  (MOSI)

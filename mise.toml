@@ -1,0 +1,10 @@
+[env]
+AMBIO_MISE_ACTIVE = 'true'
+
+[settings]
+env_file = '.env'
+idiomatic_version_file = false
+idiomatic_version_file_enable_tools = []
+
+[tasks]
+'cc' = { run = "claude", description = "Invoke Claude Code" }
