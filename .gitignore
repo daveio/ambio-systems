@@ -35,3 +35,6 @@ Icon[
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# VS Code local history
+.history

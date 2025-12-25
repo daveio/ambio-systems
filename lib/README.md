@@ -1,11 +1,14 @@
+# `lib/`
+
 This directory is intended for project specific (private) libraries.
 PlatformIO will compile them to static libraries and link into the executable file.
 
 The source code of each library should be placed in a separate directory
-("lib/your_library_name/[Code]").
+(`lib/your_library_name/...`).
 
 For example, see the structure of the following example libraries `Foo` and `Bar`:
 
+```plaintext
 |--lib
 | |
 | |--Bar
@@ -25,10 +28,11 @@ For example, see the structure of the following example libraries `Foo` and `Bar
 |- platformio.ini
 |--src
 |- main.c
+```
 
 Example contents of `src/main.c` using Foo and Bar:
 
-```
+```c
 #include <Foo.h>
 #include <Bar.h>
 
@@ -44,4 +48,4 @@ libraries by scanning project source files.
 
 More information about PlatformIO Library Dependency Finder
 
-- https://docs.platformio.org/page/librarymanager/ldf.html
+<https://docs.platformio.org/page/librarymanager/ldf.html>

@@ -126,11 +126,11 @@ pio run -e m5stack-stamps3 -t upload -t uploadfs
 ### Monitoring
 
 ```bash
-# Serial monitor (115200 baud)
-pio device monitor -b 115200
+# Serial monitor (115200 baud configured in platformio.ini)
+pio device monitor
 
 # Upload and monitor
-pio run -e m5stack-stamps3 -t upload && pio device monitor -b 115200
+pio run -e m5stack-stamps3 -t upload && pio device monitor
 ```
 
 ## Recent Improvements
@@ -159,7 +159,7 @@ pio run -e m5stack-stamps3 -t upload && pio device monitor -b 115200
 ## Documentation
 
 - **For Humans**: This README provides project overview and getting started guide
-- **For AI Agents**: See [CLAUDE.md](CLAUDE.md) for detailed technical documentation, code patterns, and Context7 resources
+- **For AI Agents**: See [.github/copilot-instructions.md](.github/copilot-instructions.md) for detailed technical documentation, code patterns, and Context7 resources
 
 ## Hardware Requirements
 
@@ -170,4 +170,4 @@ pio run -e m5stack-stamps3 -t upload && pio device monitor -b 115200
 
 ## License
 
-See project repository for license information.
+MIT. License details in [LICENSE](LICENSE) file.
