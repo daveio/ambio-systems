@@ -180,7 +180,7 @@ cd ambio-rust
 
 ### Project Structure
 
-```
+```plaintext
 ambio-rust/
 ├── .cargo/
 │   └── config.toml        # Target and linker configuration
@@ -628,15 +628,15 @@ You don't have to rewrite everything at once. Consider:
 
 ### Official Documentation
 
-- **ESP-RS Book**: https://docs.esp-rs.org/book/
+- **ESP-RS Book**: <https://docs.esp-rs.org/book>
   - Comprehensive guide to Rust on ESP32
   - Covers both bare-metal and ESP-IDF approaches
 
-- **ESP-HAL Documentation**: https://docs.esp-rs.org/esp-hal/
+- **ESP-HAL Documentation**: <https://docs.esp-rs.org/esp-hal>
   - API reference for bare-metal development
   - Examples for every peripheral
 
-- **ESP-IDF-HAL Documentation**: https://docs.esp-rs.org/esp-idf-hal/
+- **ESP-IDF-HAL Documentation**: <https://docs.esp-rs.org/esp-idf-hal>
   - API reference for ESP-IDF bindings
   - Integration with FreeRTOS
 
@@ -655,64 +655,64 @@ Use these library IDs with the Context7 MCP tool:
 
 ### Community Resources
 
-- **ESP-RS GitHub**: https://github.com/esp-rs
+- **ESP-RS GitHub**: <https://github.com/esp-rs>
   - Official Espressif Rust organization
   - Templates, HAL crates, tooling
 
-- **Awesome ESP Rust**: https://github.com/esp-rs/awesome-esp-rust
+- **Awesome ESP Rust**: <https://github.com/esp-rs/awesome-esp-rust>
   - Curated list of projects, tutorials, libraries
 
-- **Matrix Chat**: https://matrix.to/#/#esp-rs:matrix.org
+- **Matrix Chat**: <https://matrix.to/#/#esp-rs:matrix.org>
   - Active community support
   - Maintainers answer questions
 
 ### Tutorials and Examples
 
-- **Getting Started Guide**: https://nereux.blog/posts/getting-started-esp32-nostd/
+- **Getting Started Guide**: <https://nereux.blog/posts/getting-started-esp32-nostd>
   - Detailed walkthrough for ESP32 bare-metal
 
-- **ESP32 Rust Training**: https://github.com/esp-rs/std-training
+- **ESP32 Rust Training**: <https://github.com/esp-rs/std-training>
   - Official Espressif training materials
   - Hands-on exercises
 
-- **Embassy on ESP**: https://dev.to/theembeddedrustacean/embassy-on-esp-getting-started-27fi
+- **Embassy on ESP**: <https://dev.to/theembeddedrustacean/embassy-on-esp-getting-started-27fi>
   - Async programming introduction
   - Real-world examples
 
 ### Example Projects
 
-- **ESP32-C3 MQTT Logger**: https://github.com/ImUrX/esp32c3-rust-std-temperature-logger
+- **ESP32-C3 MQTT Logger**: <https://github.com/ImUrX/esp32c3-rust-std-temperature-logger>
   - Full project with WiFi and cloud connectivity
 
-- **LCD Snake Game**: https://jamesmcm.github.io/blog/beginner-rust-esp32-lcdsnake/
+- **LCD Snake Game**: <https://jamesmcm.github.io/blog/beginner-rust-esp32-lcdsnake>
   - Display programming example
   - Game loop implementation
 
-- **Bevy ECS on ESP32**: https://developer.espressif.com/blog/2025/04/bevy-ecs-on-esp32-with-rust-no-std/
+- **Bevy ECS on ESP32**: <https://developer.espressif.com/blog/2025/04/bevy-ecs-on-esp32-with-rust-no-std>
   - Advanced architecture patterns
   - Entity-component system
 
 ### Debugging and Development Tools
 
-- **probe-rs**: https://probe.rs/
+- **probe-rs**: <https://probe.rs>
   - Modern embedded debugger
   - VS Code integration
 
-- **espflash**: https://github.com/esp-rs/espflash
+- **espflash**: <https://github.com/esp-rs/espflash>
   - Flashing tool documentation
   - Advanced usage examples
 
-- **cargo-bloat**: https://github.com/RazrFalcon/cargo-bloat
+- **cargo-bloat**: <https://github.com/RazrFalcon/cargo-bloat>
   - Analyze binary size
   - Find optimization opportunities
 
 ### Performance and Optimization
 
-- **Rust Embedded Book**: https://docs.rust-embedded.org/book/
+- **Rust Embedded Book**: <https://docs.rust-embedded.org/book>
   - Best practices for embedded Rust
   - Performance optimization techniques
 
-- **Binary Size Optimization**: https://rustprojectprimer.com/building/size.html
+- **Binary Size Optimization**: <https://rustprojectprimer.com/building/size.html>
   - Comprehensive size reduction guide
   - Profile configuration examples
 
