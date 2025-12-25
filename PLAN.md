@@ -18,7 +18,7 @@ Refactor the monolithic 3,564-line `src/main.cpp` into modular components, impro
 
 ## Target Architecture
 
-```
+```plaintext
 src/
 ├── main.cpp              # Entry point: setup(), loop(), module orchestration
 ├── hardware.cpp/h        # M5 init, device detection, board enumeration
