@@ -151,10 +151,10 @@ pio run -e m5stack-stamps3 -t upload && pio device monitor
 
 ## Project Status
 
-1. ✅ Hardware test suite complete
-2. ✅ Modular architecture implemented
-3. ✅ LittleFS filesystem integration
-4. 🚧 Building actual pendant functionality (next)
+1. ✅ Modular architecture implemented
+2. ✅ LittleFS filesystem integration
+3. 🚧 Hardware test suite (next)
+4. 🚧 Building actual pendant functionality
 
 ## Documentation
 
