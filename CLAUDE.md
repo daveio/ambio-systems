@@ -152,6 +152,43 @@ Uncomment in `main.cpp` as needed:
 2. Built comprehensive hardware test suite
 3. Next: Build actual pendant functionality
 
+## Context7 Documentation Resources
+
+Use the Context7 MCP tool to access comprehensive documentation for:
+
+### Core Technologies
+
+- **PlatformIO**: `/platformio/platformio-docs` (7,648 snippets, trust 8.4)
+  - Complete build system, library manager, and IDE integration docs
+  - Alternative: `/websites/platformio_en` (4,569 snippets, trust 7.5)
+
+- **Arduino ESP32**: `/espressif/arduino-esp32` (1,420 snippets, trust 9.1)
+  - Official Arduino core for ESP32, versions 3.3.2 and 3.3.4 available
+  - Alternative: `/websites/espressif_projects_arduino-esp32_en` (624 snippets)
+
+- **ESP-IDF**: `/websites/docs_espressif_com-projects-esp-idf-en-v5.4.1-esp32-get-started-index.html` (6,186 snippets, trust 7.5)
+  - Official Espressif IoT Development Framework for ESP32-S3
+  - Alternative: `/websites/espressif_projects_esp-idf_en_stable_esp32c3` (6,766 snippets, trust 10)
+
+- **M5Stack Ecosystem**: `/websites/m5stack_en` (8,094 snippets, trust 7.5)
+  - Complete documentation for M5Stack hardware, UiFlow, M5Burner, libraries
+
+- **M5Unified Library**: `/m5stack/m5unified` (36 snippets, trust 8.7)
+  - Hardware abstraction layer for M5Stack devices
+
+- **M5GFX Library**: `/m5stack/m5gfx` (18 snippets, trust 8.7)
+  - Graphics library for M5Stack displays
+
+### Advanced Resources
+
+- **ESP HAL (Rust)**: `/esp-rs/esp-hal` (201 snippets, trust 7.5)
+  - For future Rust-based development considerations
+
+- **NimBLE Arduino**: `/h2zero/nimble-arduino` (99 snippets, trust 9.6)
+  - Bluetooth Low Energy library if needed for pendant features
+
+These resources provide authoritative documentation, code examples, API references, and best practices for all major components of this project. Use them liberally to understand platform capabilities, troubleshoot issues, and implement features correctly.
+
 ## File Locations
 
 | Purpose      | Path                         |
