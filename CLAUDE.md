@@ -28,7 +28,7 @@ pio run -t clean
 
 ## Architecture
 
-```
+```plaintext
 src/
 └── main.cpp              # Single-file application (3,500+ lines)
                           # Contains: setup(), loop(), embedded WAV data
@@ -148,11 +148,9 @@ Uncomment in `main.cpp` as needed:
 
 ## Project History
 
-1. Started as M5 Capsule audio pendant learning project
-2. Attempted ESP-IDF framework
-3. Migrated to Arduino framework (current)
-4. Evolved into comprehensive hardware test suite
-5. Next: Build actual pendant functionality
+1. Started M5 Capsule audio pendant project, named _Ambio_
+2. Built comprehensive hardware test suite
+3. Next: Build actual pendant functionality
 
 ## File Locations
 
