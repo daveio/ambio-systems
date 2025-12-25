@@ -33,10 +33,10 @@ void audio_set_volume(uint8_t level);
 void audio_play_tone(uint16_t frequency, uint32_t duration_ms, bool wait = false);
 
 /**
- * Play startup WAV sound
+ * Play startup WAV sound from LittleFS
  *
- * Currently plays embedded WAV data.
- * Future: Will load from LittleFS filesystem.
+ * Loads /audio/startup.wav from filesystem and plays raw PCM data.
+ * WAV file: 8-bit PCM, 44.1kHz, Mono
  */
 void audio_play_startup();
 
