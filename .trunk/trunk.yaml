@@ -25,6 +25,11 @@ lint:
     - prettier@3.7.4
     - trufflehog@3.92.4
     - yamllint@1.37.1
+  ignore:
+    - linters:
+        - prettier
+      paths:
+        - .vscode/*.json
 actions:
   enabled:
     - trunk-announce
