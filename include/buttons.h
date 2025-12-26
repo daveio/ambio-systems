@@ -1,8 +1,7 @@
 #ifndef AMBIO_BUTTONS_H
 #define AMBIO_BUTTONS_H
 
-#include <M5Unified.h>
-#include "types.h"
+#include "types.h"  // Provides M5Unified types transitively
 
 // ============================================================================
 // Button Input Management Module

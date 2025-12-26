@@ -1,8 +1,7 @@
 #ifndef AMBIO_DISPLAY_H
 #define AMBIO_DISPLAY_H
 
-#include <M5Unified.h>
-#include "types.h"
+#include "types.h"  // Provides M5Unified types transitively
 
 // ============================================================================
 // Display Management Module

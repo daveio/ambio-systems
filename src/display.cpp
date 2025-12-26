@@ -1,6 +1,7 @@
-#include "display.h"
-#include <M5Unified.h>
+// Display headers MUST be included BEFORE M5Unified for auto-detection
 #include <M5UnitOLED.h>
+
+#include "display.h"
 
 // Module-level state
 static bool display_initialized = false;

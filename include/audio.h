@@ -1,8 +1,7 @@
 #ifndef AMBIO_AUDIO_H
 #define AMBIO_AUDIO_H
 
-#include <M5Unified.h>
-#include "types.h"
+#include "types.h"  // Provides M5Unified types transitively
 
 // ============================================================================
 // Audio Management Module

@@ -30,20 +30,62 @@ pio run -t clean
 
 ```plaintext
 src/
-└── main.cpp              # Single-file application (3,500+ lines)
-                          # Contains: setup(), loop(), embedded WAV data
+├── main.cpp          # Application entry points (setup/loop)
+├── hardware.cpp      # M5Unified initialization, board/IMU detection
+├── display.cpp       # Display management, rendering utilities
+├── buttons.cpp       # Button input handling, LED/audio feedback
+├── audio.cpp         # Speaker control, tone generation
+└── sensors.cpp       # Battery, RTC, IMU polling and visualization
 
-platformio.ini            # Build config: m5stack-stamps3, m5stack-atom
-.vscode/launch.json       # Debug configurations
+include/
+├── types.h           # Shared constants, enums, structs
+├── hardware.h        # Hardware init API
+├── display.h         # Display module API
+├── buttons.h         # Button handling API
+├── audio.h           # Audio module API
+└── sensors.h         # Sensor module API
+
+platformio.ini        # Build config: m5stack-stamps3, m5stack-atom
 ```
 
 ### Entry Points
 
-| Function     | Location           | Purpose                                         |
-| ------------ | ------------------ | ----------------------------------------------- |
-| `setup()`    | `src/main.cpp:75`  | Hardware init, peripheral config, startup tests |
-| `loop()`     | `src/main.cpp:368` | Main loop: buttons, battery, RTC, IMU polling   |
-| `app_main()` | `src/main.cpp:633` | ESP-IDF compatibility wrapper                   |
+| Function     | Location       | Purpose                            |
+| ------------ | -------------- | ---------------------------------- |
+| `setup()`    | `src/main.cpp` | Initialize all modules in order    |
+| `loop()`     | `src/main.cpp` | Main loop: M5.update(), subsystems |
+| `app_main()` | `src/main.cpp` | ESP-IDF compatibility wrapper      |
+
+### Module Initialization Order
+
+```cpp
+hardware_init();  // M5.begin(), board detection
+display_init();   // Display config, test pattern
+buttons_init();   // Button state tracking
+audio_init();     // Speaker setup, startup sound
+sensors_init();   // Sensor subsystem ready
+```
+
+## Critical: M5Unified Include Order
+
+**Display headers MUST be included BEFORE M5Unified.h** for auto-detection to work.
+
+```cpp
+// CORRECT - display works:
+#include <M5UnitOLED.h>   // Defines __M5GFX_M5UNITOLED__ macro
+#include <M5Unified.h>    // Checks for macro, enables OLED support
+
+// WRONG - display fails silently:
+#include <M5Unified.h>    // Doesn't see the macro yet
+#include <M5UnitOLED.h>   // Too late, M5Unified already compiled without OLED
+```
+
+**Why this matters:**
+
+- M5UnitOLED.h defines preprocessor macros (e.g., `__M5GFX_M5UNITOLED__`)
+- M5Unified.h checks `#if defined(__M5GFX_M5UNITOLED__)` to enable driver support
+- Wrong order = macro not visible = OLED driver not compiled in = display doesn't work
+- This is a compile-time issue with no runtime errors - it just silently fails
 
 ## Hardware Components
 
@@ -65,6 +107,7 @@ Currently testing/supporting:
 auto cfg = M5.config();
 cfg.serial_baudrate = 115200;
 cfg.internal_imu = true;
+cfg.external_display.unit_oled = true;
 cfg.led_brightness = 64;
 M5.begin(cfg);
 ```
@@ -79,13 +122,19 @@ if (battery != prev_battery) {
 }
 ```
 
-### Display Double-Buffering
+### Display Transactions
 
 ```cpp
+// Each subsystem manages its own display transactions
 M5.Display.startWrite();
 // ... batch updates ...
 M5.Display.endWrite();
+
+// Final flush at end of loop
+M5.Display.display();
 ```
+
+**Important:** Don't nest `startWrite()`/`endWrite()` calls. Each module should handle its own complete transaction.
 
 ### Logging Levels
 
@@ -113,9 +162,9 @@ Both share identical library dependencies (M5Unified, M5GFX).
 - **M5Unified**: Hardware abstraction across 30+ M5Stack board variants
 - **M5GFX**: Graphics rendering, multi-display support, sprites/canvas
 
-### Optional Display Includes
+### Display Includes
 
-Uncomment in `main.cpp` as needed:
+Enable in source files as needed (remember: include BEFORE M5Unified.h):
 
 - `M5UnitOLED.h` (currently enabled)
 - `M5UnitLCD.h`, `M5UnitGLASS.h`, `M5AtomDisplay.h`, etc.
@@ -127,18 +176,11 @@ Uncomment in `main.cpp` as needed:
 - Baud rate: 115200
 - Shows: board type, IMU detection, button events, sensor readings
 
-### Known Structure Issues
+### Future Work
 
-- Single 3,500+ line file needs modularization
-- 46KB WAV array embedded in source (should move to filesystem)
-- Empty `include/`, `lib/`, `test/` directories
-
-### Recommended Refactoring
-
-1. Split `main.cpp` → `display.cpp`, `buttons.cpp`, `audio.cpp`, `sensors.cpp`
-2. Move WAV data to SPIFFS/LittleFS
-3. Add unit tests for logic components
-4. Create header files for shared constants/types
+- Move WAV data to LittleFS filesystem
+- Add unit tests for logic components
+- Implement actual pendant functionality
 
 ## Hardware Requirements
 
@@ -149,8 +191,9 @@ Uncomment in `main.cpp` as needed:
 ## Project History
 
 1. Started M5 Capsule audio pendant project, named _Ambio_
-2. Built comprehensive hardware test suite
-3. Next: Build actual pendant functionality
+2. Built comprehensive hardware test suite (monolithic)
+3. Refactored into modular architecture
+4. Next: Build actual pendant functionality
 
 ## Context7 Documentation Resources
 
@@ -159,41 +202,24 @@ Use the Context7 MCP tool to access comprehensive documentation for:
 ### Core Technologies
 
 - **PlatformIO**: `/platformio/platformio-docs` (7,648 snippets, trust 8.4)
-  - Complete build system, library manager, and IDE integration docs
-  - Alternative: `/websites/platformio_en` (4,569 snippets, trust 7.5)
-
 - **Arduino ESP32**: `/espressif/arduino-esp32` (1,420 snippets, trust 9.1)
-  - Official Arduino core for ESP32, versions 3.3.2 and 3.3.4 available
-  - Alternative: `/websites/espressif_projects_arduino-esp32_en` (624 snippets)
-
 - **ESP-IDF**: `/websites/docs_espressif_com-projects-esp-idf-en-v5.4.1-esp32-get-started-index.html` (6,186 snippets, trust 7.5)
-  - Official Espressif IoT Development Framework for ESP32-S3
-  - Alternative: `/websites/espressif_projects_esp-idf_en_stable_esp32c3` (6,766 snippets, trust 10)
-
 - **M5Stack Ecosystem**: `/websites/m5stack_en` (8,094 snippets, trust 7.5)
-  - Complete documentation for M5Stack hardware, UiFlow, M5Burner, libraries
-
 - **M5Unified Library**: `/m5stack/m5unified` (36 snippets, trust 8.7)
-  - Hardware abstraction layer for M5Stack devices
-
 - **M5GFX Library**: `/m5stack/m5gfx` (18 snippets, trust 8.7)
-  - Graphics library for M5Stack displays
 
 ### Advanced Resources
 
 - **ESP HAL (Rust)**: `/esp-rs/esp-hal` (201 snippets, trust 7.5)
-  - For future Rust-based development considerations
-
 - **NimBLE Arduino**: `/h2zero/nimble-arduino` (99 snippets, trust 9.6)
-  - Bluetooth Low Energy library if needed for pendant features
-
-These resources provide authoritative documentation, code examples, API references, and best practices for all major components of this project. Use them liberally to understand platform capabilities, troubleshoot issues, and implement features correctly.
 
 ## File Locations
 
 | Purpose      | Path                         |
 | ------------ | ---------------------------- |
 | Main source  | `src/main.cpp`               |
+| Modules      | `src/*.cpp`                  |
+| Headers      | `include/*.h`                |
 | Build config | `platformio.ini`             |
 | Debug config | `.vscode/launch.json`        |
 | Dependencies | `.pio/libdeps/` (gitignored) |

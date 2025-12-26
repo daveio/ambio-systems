@@ -1,6 +1,8 @@
-#include "hardware.h"
-#include <M5Unified.h>
+// Display headers MUST be included BEFORE M5Unified for auto-detection
 #include <M5UnitOLED.h>
+
+#include <M5Unified.h>
+#include "hardware.h"
 
 // Module-level state
 static m5::board_t detected_board = m5::board_t::board_unknown;

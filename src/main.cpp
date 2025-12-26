@@ -18,14 +18,6 @@
 #include "sensors.h"
 
 // ============================================================================
-// External Data
-// ============================================================================
-
-// Optional external display instance
-M5UnitOLED oled_display;  // External OLED display (default I2C addrs)
-M5Canvas canvas(&oled_display);
-
-// ============================================================================
 // Application Lifecycle
 // ============================================================================
 
@@ -73,6 +65,9 @@ void setup(void) {
  *
  * Polls all peripherals and updates displays.
  * This replaces the original loop() function.
+ *
+ * Note: Each subsystem manages its own display transactions (startWrite/endWrite)
+ * to avoid nested transaction issues. The final display() call flushes the buffer.
  */
 void loop(void) {
     M5.delay(1);  // Small delay for task scheduling
@@ -80,11 +75,9 @@ void loop(void) {
     // Update M5 internal state (buttons, power, touch, etc.)
     M5.update();
 
-    // Update all subsystems
-    display_begin_frame();
+    // Update all subsystems - each handles its own display transactions
     buttons_update();   // Button events, LED, audio feedback
-    sensors_update();   // Battery, RTC, IMU
-    display_end_frame();
+    sensors_update();   // Battery, RTC, IMU (includes display() call)
 }
 
 /**
