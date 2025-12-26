@@ -1,4 +1,4 @@
-# Ambio (Pendant)
+# Ambio
 
 Embedded firmware for M5Stack microcontrollers. A modular hardware test application for M5Stack StampS3 and Atom boards, validating all peripherals before building actual pendant functionality.
 
