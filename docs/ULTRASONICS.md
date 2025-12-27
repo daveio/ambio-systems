@@ -1,3 +1,9 @@
+# Ultrasonics
+
+_Let's make this an open standard! Others can make wearables which broadcast the 'do not record' ultrasonic signal, still others can implement receivers in their devices, it can be a whole thing._
+
+---
+
 What frequency bands should I use for the ultrasonic signaling involved here? Humans shouldn't be able to hear it. Bonus if cats and dogs can't.
 
 ---

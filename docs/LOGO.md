@@ -1,16 +1,10 @@
-Got it. I’ve read the docs and the diagram.
-
-Below are **logo directions**, not just aesthetics — each maps to how the system actually behaves. I’ll be blunt about what works and what to avoid.
-
-(Anchored in the project description and architecture )
-
 # Logo
 
 This thing is **ambient, selective, privacy-aware, distributed, and physical**. The logo should reflect _control and restraint_, not surveillance-creep or “AI assistant” fluff.
 
 I'm really liking the simple circle with delineations.
 
-![Image](images/circle.avif)
+![Image](images/logotype.avif)
 
 **Concept**
 
