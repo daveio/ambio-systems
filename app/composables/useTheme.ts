@@ -1,16 +1,16 @@
-export type Theme = "macchiato" | "latte";
+export type Theme = "dark" | "light";
 
 export function useTheme() {
-  // Initialize from document element on client, default to macchiato on server
+  // Initialize from document element on client, default to dark on server
   const theme = useState<Theme>("theme", () => {
     if (import.meta.client) {
       const attr = document.documentElement.getAttribute("data-theme");
-      return (attr as Theme) || "macchiato";
+      return (attr as Theme) || "dark";
     }
-    return "macchiato";
+    return "dark";
   });
 
-  const isDark = computed(() => theme.value === "macchiato");
+  const isDark = computed(() => theme.value === "dark");
 
   function setTheme(newTheme: Theme) {
     theme.value = newTheme;
@@ -21,7 +21,7 @@ export function useTheme() {
   }
 
   function toggleTheme() {
-    setTheme(theme.value === "macchiato" ? "latte" : "macchiato");
+    setTheme(theme.value === "dark" ? "light" : "dark");
   }
 
   return {

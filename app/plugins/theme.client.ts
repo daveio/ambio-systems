@@ -8,7 +8,7 @@ export default defineNuxtPlugin({
       const prefersDark = window.matchMedia(
         "(prefers-color-scheme: dark)",
       ).matches;
-      const theme = savedTheme || (prefersDark ? "macchiato" : "latte");
+      const theme = savedTheme || (prefersDark ? "dark" : "light");
 
       // Set theme on document element immediately
       document.documentElement.setAttribute("data-theme", theme);
