@@ -4,7 +4,15 @@ export default defineNuxtPlugin({
   setup() {
     // This runs before the app hydrates
     if (import.meta.client) {
-      const savedTheme = localStorage.getItem("ambio-theme") || null;
+      let savedTheme: string | null = null;
+
+      // localStorage can throw in private browsing, when quota exceeded, or disabled
+      try {
+        savedTheme = localStorage.getItem("ambio-theme");
+      } catch {
+        // Silently fall back to system preference
+      }
+
       const prefersDark = window.matchMedia(
         "(prefers-color-scheme: dark)",
       ).matches;
