@@ -1,10 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from "@tailwindcss/vite";
+
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
 
   modules: [
-    "@nuxtjs/tailwindcss",
     "@nuxt/fonts",
     "@nuxt/hints",
     "@nuxt/icon",
@@ -13,6 +14,9 @@ export default defineNuxtConfig({
     "@nuxt/a11y",
     "@nuxt/eslint",
   ],
+
+  // Global CSS - Tailwind v4 is imported here
+  css: ["./app/assets/css/tailwind.css"],
 
   fonts: {
     families: [
@@ -26,11 +30,6 @@ export default defineNuxtConfig({
       weights: [400],
       styles: ["normal"],
     },
-  },
-
-  tailwindcss: {
-    cssPath: "~/assets/css/tailwind.css",
-    configPath: "tailwind.config.ts",
   },
 
   app: {
@@ -72,8 +71,9 @@ export default defineNuxtConfig({
     },
   },
 
-  // Mark three.js as external for SSR
+  // Vite configuration with Tailwind CSS v4
   vite: {
+    plugins: [tailwindcss()],
     optimizeDeps: {
       include: ["three"],
     },
