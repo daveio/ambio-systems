@@ -1,21 +1,13 @@
 <script setup lang="ts">
 const { isDark } = useTheme();
 
-const logoSrc = computed(() =>
-  isDark.value ? "/images/logotype-dark.avif" : "/images/logotype-light.avif"
-);
+const logoSrc = computed(() => (isDark.value ? "/images/logotype-dark.avif" : "/images/logotype-light.avif"));
 </script>
 
 <template>
   <div class="relative">
     <Transition name="logo-fade" mode="out-in">
-      <img
-        :key="logoSrc"
-        :src="logoSrc"
-        alt="Ambio"
-        class="h-16 w-auto md:h-24 select-none"
-        loading="eager"
-      />
+      <img :key="logoSrc" :src="logoSrc" alt="Ambio" class="h-16 w-auto md:h-24 select-none" loading="eager" />
     </Transition>
   </div>
 </template>

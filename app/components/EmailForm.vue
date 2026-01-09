@@ -1,9 +1,9 @@
 <script setup lang="ts">
 // TODO: Make this Catppuccin green
-const email = ref('');
+const email = ref("");
 const isSubmitting = ref(false);
 const isSubmitted = ref(false);
-const errorMessage = ref('');
+const errorMessage = ref("");
 
 async function handleSubmit() {
   if (!email.value || isSubmitting.value) return;
@@ -11,28 +11,27 @@ async function handleSubmit() {
   // Basic email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email.value)) {
-    errorMessage.value = 'Please enter a valid email address';
+    errorMessage.value = "Please enter a valid email address";
     return;
   }
 
   isSubmitting.value = true;
-  errorMessage.value = '';
+  errorMessage.value = "";
 
   try {
-    const response = await $fetch('/api/subscribe', {
-      method: 'POST',
-      body: { email: email.value }
+    const response = await $fetch("/api/subscribe", {
+      method: "POST",
+      body: { email: email.value },
     });
 
     if (response.success) {
       isSubmitted.value = true;
-      email.value = '';
+      email.value = "";
     } else {
-      errorMessage.value =
-        response.message || 'Something went wrong. Please try again.';
+      errorMessage.value = response.message || "Something went wrong. Please try again.";
     }
   } catch {
-    errorMessage.value = 'Failed to submit. Please try again later.';
+    errorMessage.value = "Failed to submit. Please try again later.";
   } finally {
     isSubmitting.value = false;
   }
@@ -40,7 +39,7 @@ async function handleSubmit() {
 
 function resetForm() {
   isSubmitted.value = false;
-  errorMessage.value = '';
+  errorMessage.value = "";
 }
 </script>
 
@@ -54,16 +53,9 @@ function resetForm() {
             <Icon name="ph:check-circle-bold" class="h-8 w-8 text-teal" />
           </div>
         </div>
-        <p class="text-base-content/80 text-lg font-medium">
-          We'll be in touch.
-        </p>
-        <p class="text-base-content/50 text-sm">
-          Something is coming. You'll be among the first to know.
-        </p>
-        <button
-          class="btn btn-ghost btn-sm text-base-content/50 hover:text-base-content"
-          @click="resetForm"
-        >
+        <p class="text-base-content/80 text-lg font-medium">We'll be in touch.</p>
+        <p class="text-base-content/50 text-sm">Something is coming. You'll be among the first to know.</p>
+        <button class="btn btn-ghost btn-sm text-base-content/50 hover:text-base-content" @click="resetForm">
           Submit another
         </button>
       </div>
@@ -100,9 +92,7 @@ function resetForm() {
           </p>
         </Transition>
 
-        <p class="text-base-content/40 text-xs text-center">
-          No spam. Just one email when we're ready.
-        </p>
+        <p class="text-base-content/40 text-xs text-center">No spam. Just one email when we're ready.</p>
       </form>
     </Transition>
   </div>

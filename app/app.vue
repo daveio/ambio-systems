@@ -26,32 +26,28 @@ const { theme } = useTheme();
 
         <!-- Tagline -->
         <div class="space-y-4 animate-fade-in-delay-1">
-          <p class="text-xl md:text-2xl text-base-content/60 font-light tracking-wide">
-            Something is listening.
-          </p>
+          <p class="text-xl md:text-2xl text-base-content/60 font-light tracking-wide">Something is listening.</p>
         </div>
 
         <!-- Email Form -->
         <div class="w-full animate-fade-in-delay-2">
           <div class="space-y-6">
-            <h2 class="text-base-content/80 text-lg font-medium">
-              Want to get updates?
-            </h2>
+            <h2 class="text-base-content/80 text-lg font-medium">Want to get updates?</h2>
             <EmailForm />
           </div>
         </div>
 
         <!-- Subtle hint -->
-        <p class="text-base-content/20 text-sm animate-fade-in-delay-3 max-w-md">
-          Every conversation leaves an echo.
-        </p>
+        <p class="text-base-content/20 text-sm animate-fade-in-delay-3 max-w-md">Every conversation leaves an echo.</p>
       </div>
     </main>
 
     <!-- Ambient glow effect -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden -z-5">
       <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-mauve/5 rounded-full blur-3xl animate-pulse-slow" />
-      <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-sapphire/5 rounded-full blur-3xl animate-pulse-slow-delay" />
+      <div
+        class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-sapphire/5 rounded-full blur-3xl animate-pulse-slow-delay"
+      />
     </div>
   </div>
 </template>
@@ -70,7 +66,8 @@ const { theme } = useTheme();
 }
 
 @keyframes pulse-slow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
     transform: scale(1);
   }

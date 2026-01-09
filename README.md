@@ -53,7 +53,7 @@ trunk fmt        # Auto-format code
 
 ## Project Structure
 
-```
+```plaintext
 app/
 ├── app.vue           # Root layout with WebGL background
 ├── components/       # Vue components (EmailForm, ThemeToggle, etc.)

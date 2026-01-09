@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import type {
-  Scene,
-  PerspectiveCamera,
-  WebGLRenderer,
-  Points,
-  Material,
-} from "three";
+import type { Scene, PerspectiveCamera, WebGLRenderer, Points, Material } from "three";
 
 const container = ref<HTMLDivElement | null>(null);
 const { isDark } = useTheme();
@@ -147,12 +141,7 @@ async function init() {
   scene.fog = new THREE.FogExp2(c.base, 0.04);
 
   // Camera
-  camera = new THREE.PerspectiveCamera(
-    60,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
+  camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 5;
 
   // Renderer
@@ -215,9 +204,5 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    ref="container"
-    class="fixed inset-0 z-0 blur-sm"
-    aria-hidden="true"
-  />
+  <div ref="container" class="fixed inset-0 z-0 blur-sm" aria-hidden="true" />
 </template>

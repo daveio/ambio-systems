@@ -9,16 +9,8 @@ const { isDark, toggleTheme } = useTheme();
     @click="toggleTheme"
   >
     <Transition name="theme-icon" mode="out-in">
-      <Icon
-        v-if="isDark"
-        name="ph:sun-bold"
-        class="h-5 w-5 text-mauve"
-      />
-      <Icon
-        v-else
-        name="ph:moon-bold"
-        class="h-5 w-5 text-mauve"
-      />
+      <Icon v-if="isDark" name="ph:sun-bold" class="h-5 w-5 text-mauve" />
+      <Icon v-else name="ph:moon-bold" class="h-5 w-5 text-mauve" />
     </Transition>
   </button>
 </template>

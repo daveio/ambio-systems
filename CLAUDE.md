@@ -37,7 +37,7 @@ bun install          # Uses bun@1.3.5 (enforced via packageManager field)
 
 ### Directory Structure
 
-```
+```plaintext
 app/
 ├── app.vue              # Root component with layout
 ├── assets/css/          # Tailwind entry + DaisyUI theme definitions
