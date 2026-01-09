@@ -1,7 +1,15 @@
 export type Theme = "macchiato" | "latte";
 
 export function useTheme() {
-  const theme = useState<Theme>("theme", () => "macchiato");
+  // Initialize from document element on client, default to macchiato on server
+  const theme = useState<Theme>("theme", () => {
+    if (import.meta.client) {
+      const attr = document.documentElement.getAttribute("data-theme");
+      return (attr as Theme) || "macchiato";
+    }
+    return "macchiato";
+  });
+
   const isDark = computed(() => theme.value === "macchiato");
 
   function setTheme(newTheme: Theme) {
@@ -16,30 +24,10 @@ export function useTheme() {
     setTheme(theme.value === "macchiato" ? "latte" : "macchiato");
   }
 
-  function initTheme() {
-    if (import.meta.client) {
-      // Use requestAnimationFrame to ensure this runs after hydration
-      requestAnimationFrame(() => {
-        const savedTheme = localStorage.getItem("ambio-theme") as Theme | null;
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)",
-        ).matches;
-        const initialTheme =
-          savedTheme || (prefersDark ? "macchiato" : "latte");
-
-        // Only update if different from current theme
-        if (initialTheme !== theme.value) {
-          setTheme(initialTheme);
-        }
-      });
-    }
-  }
-
   return {
     theme,
     isDark,
     setTheme,
     toggleTheme,
-    initTheme,
   };
 }

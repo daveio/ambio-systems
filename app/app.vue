@@ -1,9 +1,5 @@
 <script setup lang="ts">
-const { theme, initTheme } = useTheme();
-
-onMounted(() => {
-  initTheme();
-});
+const { theme } = useTheme();
 </script>
 
 <template>

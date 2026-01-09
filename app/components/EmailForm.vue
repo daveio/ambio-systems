@@ -95,8 +95,12 @@ function resetForm() {
             class="btn btn-primary join-item bg-mauve hover:bg-mauve/80 border-mauve text-base"
             :disabled="isSubmitting || !email"
           >
-            <span v-if="isSubmitting" class="loading loading-spinner loading-sm" />
-            <span v-else>Notify me</span>
+            <template v-if="isSubmitting">
+              <span class="loading loading-spinner loading-sm"></span>
+            </template>
+            <template v-else>
+              <span>Notify me</span>
+            </template>
           </button>
         </div>
 
