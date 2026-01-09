@@ -4,7 +4,6 @@ import type {
   PerspectiveCamera,
   WebGLRenderer,
   Points,
-  BufferGeometry,
   Material,
 } from "three";
 
@@ -16,12 +15,9 @@ let scene: Scene;
 let camera: PerspectiveCamera;
 let renderer: WebGLRenderer;
 let particles: Points;
-let waveGeometry: BufferGeometry;
-let wavePoints: Points;
 let animationId: number;
 
 const particleCount = 1500;
-const waveParticleCount = 200;
 
 // Catppuccin colors
 const colors = {
@@ -67,7 +63,7 @@ function createParticles() {
     positions[i3 + 1] = (Math.random() - 0.5) * 20;
     positions[i3 + 2] = (Math.random() - 0.5) * 10 - 5;
 
-    const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+    const color = colorOptions[Math.floor(Math.random() * colorOptions.length)]!;
     particleColors[i3] = color.r;
     particleColors[i3 + 1] = color.g;
     particleColors[i3 + 2] = color.b;
@@ -80,68 +76,15 @@ function createParticles() {
   geometry.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
 
   const material = new THREE.PointsMaterial({
-    size: 0.05,
+    size: 0.12,
     vertexColors: true,
     transparent: true,
     opacity: 0.6,
-    blending: THREE.AdditiveBlending,
+    blending: THREE.NormalBlending,
     sizeAttenuation: true,
   });
 
   return new THREE.Points(geometry, material);
-}
-
-function createWaveRing() {
-  const geometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(waveParticleCount * 3);
-  const particleColors = new Float32Array(waveParticleCount * 3);
-
-  const c = getColors();
-  const primaryColor = new THREE.Color(c.mauve);
-
-  for (let i = 0; i < waveParticleCount; i++) {
-    const angle = (i / waveParticleCount) * Math.PI * 2;
-    const i3 = i * 3;
-    positions[i3] = Math.cos(angle) * 2;
-    positions[i3 + 1] = Math.sin(angle) * 2;
-    positions[i3 + 2] = 0;
-
-    particleColors[i3] = primaryColor.r;
-    particleColors[i3 + 1] = primaryColor.g;
-    particleColors[i3 + 2] = primaryColor.b;
-  }
-
-  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute("color", new THREE.BufferAttribute(particleColors, 3));
-
-  const material = new THREE.PointsMaterial({
-    size: 0.04,
-    vertexColors: true,
-    transparent: true,
-    opacity: 0.8,
-    blending: THREE.AdditiveBlending,
-  });
-
-  return new THREE.Points(geometry, material);
-}
-
-function updateWaveRing(time: number) {
-  if (!waveGeometry) return;
-
-  const positions = waveGeometry.attributes.position.array as Float32Array;
-
-  for (let i = 0; i < waveParticleCount; i++) {
-    const angle = (i / waveParticleCount) * Math.PI * 2;
-    const waveOffset = Math.sin(angle * 8 + time * 2) * 0.15;
-    const pulseOffset = Math.sin(time * 1.5) * 0.1;
-    const radius = 2 + waveOffset + pulseOffset;
-
-    const i3 = i * 3;
-    positions[i3] = Math.cos(angle) * radius;
-    positions[i3 + 1] = Math.sin(angle) * radius;
-  }
-
-  waveGeometry.attributes.position.needsUpdate = true;
 }
 
 function updateParticleColors() {
@@ -155,32 +98,25 @@ function updateParticleColors() {
     new THREE.Color(c.teal),
   ];
 
-  const particleColors = particles.geometry.attributes.color.array as Float32Array;
-  const waveColors = waveGeometry?.attributes.color.array as Float32Array;
+  const colorAttr = particles.geometry.attributes.color;
+  if (!colorAttr) return;
+
+  const particleColors = colorAttr.array as Float32Array;
 
   for (let i = 0; i < particleCount; i++) {
-    const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+    const color = colorOptions[Math.floor(Math.random() * colorOptions.length)]!;
     const i3 = i * 3;
     particleColors[i3] = color.r;
     particleColors[i3 + 1] = color.g;
     particleColors[i3 + 2] = color.b;
   }
 
-  if (waveColors) {
-    const primaryColor = new THREE.Color(c.mauve);
-    for (let i = 0; i < waveParticleCount; i++) {
-      const i3 = i * 3;
-      waveColors[i3] = primaryColor.r;
-      waveColors[i3 + 1] = primaryColor.g;
-      waveColors[i3 + 2] = primaryColor.b;
-    }
-    waveGeometry.attributes.color.needsUpdate = true;
+  colorAttr.needsUpdate = true;
+
+  // Update background color for theme change
+  if (scene) {
+    scene.background = new THREE.Color(c.base);
   }
-
-  particles.geometry.attributes.color.needsUpdate = true;
-
-  // Update background color
-  scene.background = new THREE.Color(c.base);
 }
 
 function animate() {
@@ -190,16 +126,8 @@ function animate() {
 
   // Rotate particles slowly
   if (particles) {
-    particles.rotation.y = time * 0.05;
-    particles.rotation.x = Math.sin(time * 0.1) * 0.1;
-  }
-
-  // Animate wave ring
-  updateWaveRing(time);
-
-  // Subtle wave rotation
-  if (wavePoints) {
-    wavePoints.rotation.z = time * 0.2;
+    particles.rotation.y = time * 0.03;
+    particles.rotation.x = Math.sin(time * 0.05) * 0.05;
   }
 
   renderer.render(scene, camera);
@@ -213,10 +141,10 @@ async function init() {
 
   const c = getColors();
 
-  // Scene
+  // Scene with Catppuccin background color
   scene = new THREE.Scene();
   scene.background = new THREE.Color(c.base);
-  scene.fog = new THREE.Fog(c.base, 5, 15);
+  scene.fog = new THREE.FogExp2(c.base, 0.04);
 
   // Camera
   camera = new THREE.PerspectiveCamera(
@@ -236,11 +164,6 @@ async function init() {
   // Create particles
   particles = createParticles();
   scene.add(particles);
-
-  // Create wave ring
-  wavePoints = createWaveRing();
-  waveGeometry = wavePoints.geometry;
-  scene.add(wavePoints);
 
   // Handle resize
   window.addEventListener("resize", onResize);
@@ -271,11 +194,6 @@ function cleanup() {
     particles.geometry.dispose();
     (particles.material as Material).dispose();
   }
-
-  if (wavePoints) {
-    wavePoints.geometry.dispose();
-    (wavePoints.material as Material).dispose();
-  }
 }
 
 watch(isDark, () => {
@@ -283,7 +201,7 @@ watch(isDark, () => {
   updateParticleColors();
   if (scene) {
     const c = getColors();
-    scene.fog = new THREE.Fog(c.base, 5, 15);
+    scene.fog = new THREE.FogExp2(c.base, 0.04);
   }
 });
 
@@ -299,7 +217,7 @@ onUnmounted(() => {
 <template>
   <div
     ref="container"
-    class="fixed inset-0 -z-10"
+    class="fixed inset-0 z-0 blur-sm"
     aria-hidden="true"
   />
 </template>
