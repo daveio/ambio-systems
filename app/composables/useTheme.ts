@@ -18,12 +18,20 @@ export function useTheme() {
 
   function initTheme() {
     if (import.meta.client) {
-      const savedTheme = localStorage.getItem("ambio-theme") as Theme | null;
-      const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)",
-      ).matches;
-      const initialTheme = savedTheme || (prefersDark ? "macchiato" : "latte");
-      setTheme(initialTheme);
+      // Use requestAnimationFrame to ensure this runs after hydration
+      requestAnimationFrame(() => {
+        const savedTheme = localStorage.getItem("ambio-theme") as Theme | null;
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        const initialTheme =
+          savedTheme || (prefersDark ? "macchiato" : "latte");
+
+        // Only update if different from current theme
+        if (initialTheme !== theme.value) {
+          setTheme(initialTheme);
+        }
+      });
     }
   }
 

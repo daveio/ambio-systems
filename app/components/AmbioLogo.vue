@@ -9,13 +9,12 @@ const logoSrc = computed(() =>
 <template>
   <div class="relative">
     <Transition name="logo-fade" mode="out-in">
-      <NuxtImg
+      <img
         :key="logoSrc"
         :src="logoSrc"
         alt="Ambio"
         class="h-16 w-auto md:h-24 select-none"
         loading="eager"
-        format="avif"
       />
     </Transition>
   </div>

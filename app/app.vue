@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { initTheme } = useTheme();
+const { theme, initTheme } = useTheme();
 
 onMounted(() => {
   initTheme();
@@ -7,7 +7,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div data-theme="macchiato" class="min-h-screen bg-base-100">
+  <div :data-theme="theme" class="min-h-screen bg-base-100">
     <NuxtRouteAnnouncer />
 
     <!-- WebGL Background -->
