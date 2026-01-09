@@ -22,3 +22,13 @@ logs
 .env
 .env.*
 !.env.example
+
+# Serena
+.serena/
+
+# VS Code history
+.history/
+
+# macOS
+.DS_Store
+
