@@ -85,14 +85,14 @@ function resetForm() {
             v-model="email"
             type="email"
             placeholder="your@email.com"
-            class="input input-bordered join-item flex-1 bg-base-200/50 backdrop-blur-sm border-base-300 focus:border-mauve focus:outline-none placeholder:text-base-content/30"
+            class="input input-bordered join-item flex-1 bg-base-200/50 backdrop-blur-sm border-base-300 focus:border-primary focus:outline-none placeholder:text-base-content/30"
             :disabled="isSubmitting"
             autocomplete="email"
             required
           >
           <button
             type="submit"
-            class="btn btn-primary join-item bg-mauve hover:bg-mauve/80 border-mauve text-base"
+            class="btn join-item bg-primary hover:bg-primary/80 border-primary text-primary-content"
             :disabled="isSubmitting || !email"
           >
             <template v-if="isSubmitting">
