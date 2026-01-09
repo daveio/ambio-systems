@@ -19,7 +19,9 @@ export function useTheme() {
   function initTheme() {
     if (import.meta.client) {
       const savedTheme = localStorage.getItem("ambio-theme") as Theme | null;
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
       const initialTheme = savedTheme || (prefersDark ? "macchiato" : "latte");
       setTheme(initialTheme);
     }
