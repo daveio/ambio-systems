@@ -1,8 +1,9 @@
 <script setup lang="ts">
-const email = ref("");
+// TODO: Make this Catppuccin green
+const email = ref('');
 const isSubmitting = ref(false);
 const isSubmitted = ref(false);
-const errorMessage = ref("");
+const errorMessage = ref('');
 
 async function handleSubmit() {
   if (!email.value || isSubmitting.value) return;
@@ -10,27 +11,28 @@ async function handleSubmit() {
   // Basic email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email.value)) {
-    errorMessage.value = "Please enter a valid email address";
+    errorMessage.value = 'Please enter a valid email address';
     return;
   }
 
   isSubmitting.value = true;
-  errorMessage.value = "";
+  errorMessage.value = '';
 
   try {
-    const response = await $fetch("/api/subscribe", {
-      method: "POST",
-      body: { email: email.value },
+    const response = await $fetch('/api/subscribe', {
+      method: 'POST',
+      body: { email: email.value }
     });
 
     if (response.success) {
       isSubmitted.value = true;
-      email.value = "";
+      email.value = '';
     } else {
-      errorMessage.value = response.message || "Something went wrong. Please try again.";
+      errorMessage.value =
+        response.message || 'Something went wrong. Please try again.';
     }
   } catch {
-    errorMessage.value = "Failed to submit. Please try again later.";
+    errorMessage.value = 'Failed to submit. Please try again later.';
   } finally {
     isSubmitting.value = false;
   }
@@ -38,7 +40,7 @@ async function handleSubmit() {
 
 function resetForm() {
   isSubmitted.value = false;
-  errorMessage.value = "";
+  errorMessage.value = '';
 }
 </script>
 
@@ -46,17 +48,10 @@ function resetForm() {
   <div class="w-full max-w-md">
     <Transition name="form-slide" mode="out-in">
       <!-- Success State -->
-      <div
-        v-if="isSubmitted"
-        key="success"
-        class="text-center space-y-4"
-      >
+      <div v-if="isSubmitted" key="success" class="text-center space-y-4">
         <div class="flex justify-center">
           <div class="rounded-full bg-teal/20 p-4">
-            <Icon
-              name="ph:check-circle-bold"
-              class="h-8 w-8 text-teal"
-            />
+            <Icon name="ph:check-circle-bold" class="h-8 w-8 text-teal" />
           </div>
         </div>
         <p class="text-base-content/80 text-lg font-medium">
@@ -74,12 +69,7 @@ function resetForm() {
       </div>
 
       <!-- Form State -->
-      <form
-        v-else
-        key="form"
-        class="space-y-4"
-        @submit.prevent="handleSubmit"
-      >
+      <form v-else key="form" class="space-y-4" @submit.prevent="handleSubmit">
         <div class="join w-full">
           <input
             v-model="email"
@@ -89,7 +79,7 @@ function resetForm() {
             :disabled="isSubmitting"
             autocomplete="email"
             required
-          >
+          />
           <button
             type="submit"
             class="btn join-item bg-primary hover:bg-primary/80 border-primary text-primary-content"
@@ -105,10 +95,7 @@ function resetForm() {
         </div>
 
         <Transition name="error-fade">
-          <p
-            v-if="errorMessage"
-            class="text-error text-sm text-center"
-          >
+          <p v-if="errorMessage" class="text-error text-sm text-center">
             {{ errorMessage }}
           </p>
         </Transition>
