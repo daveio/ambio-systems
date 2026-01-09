@@ -32,6 +32,10 @@ lint:
         - prettier
       paths:
         - .vscode/*.json
+    - linters:
+        - ALL
+      paths:
+        - CONTEXT.md
 actions:
   enabled:
     - trunk-announce
