@@ -54,7 +54,9 @@ function resetForm() {
             <Icon name="ph:check-circle-bold" class="h-8 w-8 text-teal" />
           </div>
         </div>
-        <p class="text-lg font-medium" :class="isDark ? 'text-base-content/80' : 'text-base-content/90'">We'll be in touch.</p>
+        <p class="text-lg font-medium" :class="isDark ? 'text-base-content/80' : 'text-base-content/90'">
+          We'll be in touch.
+        </p>
         <p class="text-sm" :class="isDark ? 'text-base-content/50' : 'text-base-content/80'">
           Something is coming. You'll be among the first to know.
         </p>

@@ -1,34 +1,34 @@
 <script setup lang="ts">
 const { theme, isDark } = useTheme();
 useSeoMeta({
-  description: 'Something is listening.',
-  ogTitle: 'Ambio',
-  ogDescription: 'Something is listening.',
-  ogImage: 'https://ambio.systems/images/pendant-mockup.avif',
+  description: "Something is listening.",
+  ogTitle: "Ambio",
+  ogDescription: "Something is listening.",
+  ogImage: "https://ambio.systems/images/pendant-mockup.avif",
   ogImageWidth: 1024,
   ogImageHeight: 1024,
-  ogImageAlt: 'An early mockup for an Ambio pendant',
-  ogUrl: 'https://ambio.systems',
-  twitterTitle: 'Ambio',
-  twitterDescription: 'Something is listening.',
-  twitterImage: 'https://ambio.systems/images/pendant-mockup.avif',
-  twitterImageAlt: 'An early mockup for an Ambio pendant',
-  applicationName: 'Ambio',
-  twitterCard: 'summary'
-})
+  ogImageAlt: "An early mockup for an Ambio pendant",
+  ogUrl: "https://ambio.systems",
+  twitterTitle: "Ambio",
+  twitterDescription: "Something is listening.",
+  twitterImage: "https://ambio.systems/images/pendant-mockup.avif",
+  twitterImageAlt: "An early mockup for an Ambio pendant",
+  applicationName: "Ambio",
+  twitterCard: "summary",
+});
 
 useHead({
   htmlAttrs: {
-    lang: 'en'
+    lang: "en",
   },
   link: [
     {
-      rel: 'icon',
-      type: 'image/avif',
-      href: '/images/favicon.avif'
-    }
-  ]
-})
+      rel: "icon",
+      type: "image/avif",
+      href: "/images/favicon.avif",
+    },
+  ],
+});
 </script>
 
 <template>
