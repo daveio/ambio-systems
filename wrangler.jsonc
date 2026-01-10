@@ -1,6 +1,21 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "account_id": "def50674a738cee409235f71819973cf",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ambio-systems",
+      "database_id": "170faf5a-1cf2-4239-bb79-5ffc5b9ddf3c",
+      "migrations_dir": "drizzle",
+    },
+  ],
+  "secrets_store_secrets": [
+    {
+      "binding": "ADMIN_API_KEY",
+      "store_id": "c38e38cf995f4db08a71c9b616169d33",
+      "secret_name": "admin_api_key",
+    },
+  ],
   "ai": {
     "binding": "AI",
     "remote": true,

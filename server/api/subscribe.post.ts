@@ -1,36 +1,73 @@
+import { eq } from "drizzle-orm";
+import { subscriptions } from "../database/schema";
+import { useDB } from "../utils/db";
+
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ email: string }>(event);
 
+  // Validation
   if (!body.email) {
-    return {
-      success: false,
-      message: "Email is required",
-    };
+    throw createError({ statusCode: 400, message: "Email is required" });
   }
 
-  // Basic email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(body.email)) {
-    return {
-      success: false,
-      message: "Invalid email format",
-    };
+    throw createError({ statusCode: 400, message: "Invalid email format" });
   }
 
-  // TODO: Implement actual email storage
-  // This is a stub that simulates success
-  // In production, you would:
-  // - Store in a database
-  // - Add to a mailing list service (Mailchimp, SendGrid, etc.)
-  // - Send a confirmation email
+  const db = useDB(event);
+  const { cloudflare } = event.context;
+  const cf = cloudflare.cf; // Geolocation data
 
-  console.log(`[Subscription] New signup: ${body.email}`);
+  // Extract metadata
+  const ipAddress =
+    getHeader(event, "cf-connecting-ip") || getHeader(event, "x-forwarded-for");
+  const userAgent = getHeader(event, "user-agent");
 
-  // Simulate a small delay for realism
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  // Normalize email
+  const normalizedEmail = body.email.toLowerCase().trim();
 
-  return {
-    success: true,
-    message: "Successfully subscribed",
-  };
+  // Check for existing subscription
+  const existing = await db
+    .select()
+    .from(subscriptions)
+    .where(eq(subscriptions.email, normalizedEmail))
+    .get();
+
+  if (existing) {
+    // Update timestamp and metadata of existing entry
+    await db
+      .update(subscriptions)
+      .set({
+        updatedAt: new Date(),
+        status: "active", // Reactivate if previously unsubscribed
+        // Update location data in case it changed
+        ipAddress,
+        userAgent,
+        country: cf?.country as string | undefined,
+        city: cf?.city as string | undefined,
+        region: cf?.region as string | undefined,
+        timezone: cf?.timezone as string | undefined,
+        latitude: cf?.latitude as string | undefined,
+        longitude: cf?.longitude as string | undefined,
+      })
+      .where(eq(subscriptions.email, normalizedEmail));
+
+    return { success: true, message: "Subscription updated" };
+  }
+
+  // Insert new subscription
+  await db.insert(subscriptions).values({
+    email: normalizedEmail,
+    ipAddress,
+    userAgent,
+    country: cf?.country as string | undefined,
+    city: cf?.city as string | undefined,
+    region: cf?.region as string | undefined,
+    timezone: cf?.timezone as string | undefined,
+    latitude: cf?.latitude as string | undefined,
+    longitude: cf?.longitude as string | undefined,
+  });
+
+  return { success: true, message: "Successfully subscribed" };
 });
