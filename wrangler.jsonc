@@ -8,7 +8,7 @@
   "analytics_engine_datasets": [
     {
       "binding": "ANALYTICS",
-      "dataset": "dave-io",
+      "dataset": "ambio-systems",
     },
   ],
   "assets": {
