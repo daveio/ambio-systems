@@ -4,6 +4,7 @@ const email = ref("");
 const isSubmitting = ref(false);
 const isSubmitted = ref(false);
 const errorMessage = ref("");
+const { isDark } = useTheme();
 
 async function handleSubmit() {
   if (!email.value || isSubmitting.value) return;
@@ -53,8 +54,10 @@ function resetForm() {
             <Icon name="ph:check-circle-bold" class="h-8 w-8 text-teal" />
           </div>
         </div>
-        <p class="text-base-content/80 text-lg font-medium">We'll be in touch.</p>
-        <p class="text-base-content/50 text-sm">Something is coming. You'll be among the first to know.</p>
+        <p class="text-lg font-medium" :class="isDark ? 'text-base-content/80' : 'text-base-content/90'">We'll be in touch.</p>
+        <p class="text-sm" :class="isDark ? 'text-base-content/50' : 'text-base-content/80'">
+          Something is coming. You'll be among the first to know.
+        </p>
         <button class="btn btn-ghost btn-sm text-base-content/50 hover:text-base-content" @click="resetForm">
           Submit another
         </button>
@@ -67,7 +70,8 @@ function resetForm() {
             v-model="email"
             type="email"
             placeholder="your@email.com"
-            class="input input-bordered join-item flex-1 bg-base-200/50 backdrop-blur-sm border-base-300 focus:border-primary focus:outline-none placeholder:text-base-content/30"
+            class="input input-bordered join-item flex-1 bg-base-200/50 backdrop-blur-sm border-base-300 focus:border-primary focus:outline-none"
+            :class="isDark ? 'placeholder:text-base-content/30' : 'placeholder:text-base-content/50'"
             :disabled="isSubmitting"
             autocomplete="email"
             required
@@ -92,7 +96,9 @@ function resetForm() {
           </p>
         </Transition>
 
-        <p class="text-base-content/40 text-xs text-center">No spam. Just one email when we're ready.</p>
+        <p class="text-xs text-center" :class="isDark ? 'text-base-content/40' : 'text-base-content/70'">
+          No spam. Just one email when we're ready.
+        </p>
       </form>
     </Transition>
   </div>

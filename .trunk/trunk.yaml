@@ -32,6 +32,10 @@ lint:
         - prettier
       paths:
         - .vscode/*.json
+    - linters:
+        - eslint
+      paths:
+        - worker-configuration.d.ts
 actions:
   enabled:
     - trunk-announce

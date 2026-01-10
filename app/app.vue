@@ -1,5 +1,34 @@
 <script setup lang="ts">
-const { theme } = useTheme();
+const { theme, isDark } = useTheme();
+useSeoMeta({
+  description: 'Something is listening.',
+  ogTitle: 'Ambio',
+  ogDescription: 'Something is listening.',
+  ogImage: 'https://ambio.systems/images/pendant-mockup.avif',
+  ogImageWidth: 1024,
+  ogImageHeight: 1024,
+  ogImageAlt: 'An early mockup for an Ambio pendant',
+  ogUrl: 'https://ambio.systems',
+  twitterTitle: 'Ambio',
+  twitterDescription: 'Something is listening.',
+  twitterImage: 'https://ambio.systems/images/pendant-mockup.avif',
+  twitterImageAlt: 'An early mockup for an Ambio pendant',
+  applicationName: 'Ambio',
+  twitterCard: 'summary'
+})
+
+useHead({
+  htmlAttrs: {
+    lang: 'en'
+  },
+  link: [
+    {
+      rel: 'icon',
+      type: 'image/avif',
+      href: '/images/favicon.avif'
+    }
+  ]
+})
 </script>
 
 <template>
@@ -26,7 +55,12 @@ const { theme } = useTheme();
 
         <!-- Tagline -->
         <div class="space-y-4 animate-fade-in-delay-1">
-          <p class="text-xl md:text-2xl text-base-content/60 font-light tracking-wide">Something is listening.</p>
+          <p
+            class="text-xl md:text-2xl tracking-wide"
+            :class="isDark ? 'text-base-content/60 font-light' : 'text-base-content/80 font-normal'"
+          >
+            Something is listening.
+          </p>
         </div>
 
         <!-- Email Form -->
@@ -38,7 +72,12 @@ const { theme } = useTheme();
         </div>
 
         <!-- Subtle hint -->
-        <p class="text-base-content/20 text-sm animate-fade-in-delay-3 max-w-md">Every conversation leaves an echo.</p>
+        <p
+          class="text-sm animate-fade-in-delay-3 max-w-md"
+          :class="isDark ? 'text-base-content/20' : 'text-base-content/60'"
+        >
+          Every conversation leaves an echo.
+        </p>
       </div>
     </main>
 

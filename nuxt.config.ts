@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
+    "nitro-cloudflare-dev",
     "@nuxt/fonts",
     "@nuxt/hints",
     "@nuxt/icon",
@@ -44,33 +45,21 @@ export default defineNuxtConfig({
         { name: "description", content: "Something is listening." },
         { name: "theme-color", content: "#24273a" },
       ],
-      link: [
-        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-        // Fallback font loading via link tag
-        {
-          rel: "preconnect",
-          href: "https://fonts.googleapis.com",
-        },
-        {
-          rel: "preconnect",
-          href: "https://fonts.gstatic.com",
-          crossorigin: "",
-        },
-        {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
-        },
-      ],
+      link: [{ rel: "icon", type: "image/avif", href: "/images/favicon.avif" }],
     },
   },
 
   nitro: {
+    preset: "cloudflare_module",
     prerender: {
       failOnError: false,
       crawlLinks: true,
     },
+    cloudflare: {
+      deployConfig: true,
+      nodeCompat: true,
+    },
   },
-
   // Vite configuration with Tailwind CSS v4
   vite: {
     plugins: [tailwindcss()],
