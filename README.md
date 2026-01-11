@@ -10,6 +10,7 @@ A teaser landing page featuring an animated WebGL particle background, dark/ligh
 - **[Tailwind CSS v4](https://tailwindcss.com/)** – Utility-first CSS
 - **[DaisyUI v5](https://daisyui.com/)** – Component library for Tailwind
 - **[Three.js](https://threejs.org/)** – WebGL particle effects
+- **[Cloudflare D1](https://developers.cloudflare.com/d1/)** – SQLite database with Drizzle ORM
 - **[Bun](https://bun.sh/)** – JavaScript runtime & package manager
 
 ## Quick Start
@@ -26,12 +27,16 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 
 ## Scripts
 
-| Command            | Description               |
-| ------------------ | ------------------------- |
-| `bun run dev`      | Start dev server with HMR |
-| `bun run build`    | Build for production      |
-| `bun run preview`  | Preview production build  |
-| `bun run generate` | Generate static site      |
+| Command                 | Description                    |
+| ----------------------- | ------------------------------ |
+| `bun run dev`           | Start dev server with HMR      |
+| `bun run build`         | Build for production           |
+| `bun run preview`       | Preview production build       |
+| `bun run generate`      | Generate static site           |
+| `bun run db:generate`   | Generate DB migrations         |
+| `bun run db:migrate:local` | Apply migrations to local D1   |
+| `bun run db:migrate:remote` | Apply migrations to remote D1  |
+| `bun run db:studio`     | Open Drizzle Studio            |
 
 ## Theming
 
@@ -61,9 +66,12 @@ app/
 ├── plugins/          # Client-side plugins
 └── assets/css/       # Tailwind + DaisyUI theme configuration
 server/
-└── api/              # Nitro server routes
+├── api/              # Nitro server routes (subscribe, unsubscribe, admin)
+├── database/         # Drizzle schema definitions
+└── utils/            # Server utilities (auth, rate limiting, db)
 public/
 └── images/           # Static assets
+drizzle/              # Database migrations
 ```
 
 ## License
