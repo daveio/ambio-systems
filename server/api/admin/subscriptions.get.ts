@@ -76,6 +76,16 @@ export default defineEventHandler(async (event) => {
       return str;
     };
 
+    const formatDateForCSV = (date: Date | null | undefined): string => {
+      if (!date) return "";
+      try {
+        return date.toISOString();
+      } catch (error) {
+        // Handle invalid date objects gracefully
+        return "";
+      }
+    };
+
     const csvRows = [
       headers.join(","),
       ...results.map((row) =>
@@ -91,8 +101,8 @@ export default defineEventHandler(async (event) => {
           escapeCSV(row.timezone),
           escapeCSV(row.latitude),
           escapeCSV(row.longitude),
-          row.createdAt?.toISOString() || "",
-          row.updatedAt?.toISOString() || "",
+          formatDateForCSV(row.createdAt),
+          formatDateForCSV(row.updatedAt),
         ].join(","),
       ),
     ];
