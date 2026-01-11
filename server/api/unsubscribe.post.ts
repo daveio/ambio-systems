@@ -1,8 +1,12 @@
 import { eq } from "drizzle-orm";
 import { subscriptions } from "../database/schema";
 import { useDB } from "../utils/db";
+import { requireRateLimit } from "../utils/ratelimit";
 
 export default defineEventHandler(async (event) => {
+  // Rate limiting: 5 requests per 60 seconds per IP
+  await requireRateLimit(event, { limit: 5, window: 60 });
+
   const body = await readBody<{ email: string }>(event);
 
   if (!body.email) {
@@ -19,12 +23,13 @@ export default defineEventHandler(async (event) => {
     .where(eq(subscriptions.email, normalizedEmail))
     .get();
 
+  // Return generic success even if subscription doesn't exist (privacy)
   if (!existing) {
-    throw createError({ statusCode: 404, message: "Subscription not found" });
+    return { success: true, message: "Successfully unsubscribed" };
   }
 
   if (existing.status === "unsubscribed") {
-    return { success: true, message: "Already unsubscribed" };
+    return { success: true, message: "Successfully unsubscribed" };
   }
 
   // Soft delete - mark as unsubscribed
