@@ -17,6 +17,7 @@ runtimes:
 # This is the section where you manage your linters. (https://docs.trunk.io/check/configuration)
 lint:
   enabled:
+    - oxipng@10.0.0
     - eslint@9.39.2
     - osv-scanner@2.3.1
     - actionlint@1.7.10
