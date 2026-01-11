@@ -5,15 +5,24 @@ import { timingSafeEqual } from "node:crypto";
  * Constant-time string comparison to prevent timing attacks
  */
 function constantTimeEqual(a: string, b: string): boolean {
-  // Early return if lengths differ (this itself is not timing-safe,
-  // but if lengths differ, the keys are definitely not equal)
-  if (a.length !== b.length) {
+  // Validate non-empty inputs
+  if (!a || !b) {
     return false;
   }
 
   // Convert strings to buffers for constant-time comparison
   const bufferA = Buffer.from(a, "utf8");
   const bufferB = Buffer.from(b, "utf8");
+
+  // timingSafeEqual requires buffers of equal length
+  // If lengths differ, still perform comparison on equal-length buffers
+  // to avoid timing attacks based on length differences
+  if (bufferA.length !== bufferB.length) {
+    // Create dummy buffer of same length as bufferA to compare against
+    const dummyBuffer = Buffer.alloc(bufferA.length);
+    timingSafeEqual(bufferA, dummyBuffer);
+    return false;
+  }
 
   return timingSafeEqual(bufferA, bufferB);
 }
