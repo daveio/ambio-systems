@@ -35,3 +35,4 @@ logs
 # macOS
 .DS_Store
 
+.wrangler/
