@@ -1,21 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "account_id": "def50674a738cee409235f71819973cf",
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "ambio-systems",
-      "database_id": "170faf5a-1cf2-4239-bb79-5ffc5b9ddf3c",
-      "migrations_dir": "drizzle",
-    },
-  ],
-  "secrets_store_secrets": [
-    {
-      "binding": "ADMIN_API_KEY",
-      "store_id": "c38e38cf995f4db08a71c9b616169d33",
-      "secret_name": "admin_api_key",
-    },
-  ],
   "ai": {
     "binding": "AI",
     "remote": true,
@@ -38,10 +23,26 @@
     "nodejs_compat",
     "nodejs_compat_populate_process_env",
   ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_id": "170faf5a-1cf2-4239-bb79-5ffc5b9ddf3c",
+      "database_name": "ambio-systems",
+      "migrations_dir": "drizzle",
+    },
+  ],
   "images": {
     "binding": "IMAGES",
   },
   "keep_names": true,
+  "kv_namespaces": [
+    {
+      "binding": "RATE_LIMIT_KV",
+      "id": "2ebb38288c6948958d1e90eb66750ce3",
+      "preview_id": "fcc67493f34f41caaff3719e0215bb35",
+      "remote": false,
+    },
+  ],
   "limits": {
     "cpu_ms": 30000,
   },
@@ -69,6 +70,13 @@
     {
       "custom_domain": true,
       "pattern": "www.ambio.systems",
+    },
+  ],
+  "secrets_store_secrets": [
+    {
+      "binding": "ADMIN_API_KEY",
+      "secret_name": "admin_api_key",
+      "store_id": "c38e38cf995f4db08a71c9b616169d33",
     },
   ],
   "send_metrics": true,

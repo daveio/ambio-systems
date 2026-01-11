@@ -9,8 +9,8 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<{ email: string }>(event);
 
-  // Validation
-  if (!body.email) {
+  // Validation - check body exists first to avoid TypeError on null body
+  if (!body || !body.email) {
     throw createError({ statusCode: 400, message: "Email is required" });
   }
 
@@ -60,24 +60,9 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: "Email is too long" });
   }
 
-  // Check if user already exists
-  const existing = await db
-    .select()
-    .from(subscriptions)
-    .where(eq(subscriptions.email, normalizedEmail))
-    .get();
-
-  // If user was previously unsubscribed, don't reactivate without explicit consent
-  if (existing && existing.status === "unsubscribed") {
-    throw createError({
-      statusCode: 400,
-      message:
-        "This email was previously unsubscribed. Please contact support to reactivate.",
-    });
-  }
-
-  // Use upsert to avoid race condition on concurrent requests
-  // This is atomic and handles both insert and update in a single operation
+  // Atomic upsert: insert new subscription or update metadata for existing active users.
+  // The ON CONFLICT clause only updates metadata, never the status field.
+  // This ensures unsubscribed users remain unsubscribed.
   await db
     .insert(subscriptions)
     .values({
@@ -106,6 +91,23 @@ export default defineEventHandler(async (event) => {
         longitude,
       },
     });
+
+  // Post-upsert verification: check if the email belongs to an unsubscribed user.
+  // This eliminates the TOCTOU race condition by checking AFTER the write completes.
+  // Even if concurrent requests occur, we correctly reject resubscription attempts.
+  const record = await db
+    .select({ status: subscriptions.status })
+    .from(subscriptions)
+    .where(eq(subscriptions.email, normalizedEmail))
+    .get();
+
+  if (record?.status === "unsubscribed") {
+    throw createError({
+      statusCode: 400,
+      message:
+        "This email was previously unsubscribed. Please contact support to reactivate.",
+    });
+  }
 
   return { success: true, message: "Successfully subscribed" };
 });

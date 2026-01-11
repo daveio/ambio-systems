@@ -9,7 +9,8 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<{ email: string }>(event);
 
-  if (!body.email) {
+  // Validation - check body exists first to avoid TypeError on null body
+  if (!body || !body.email) {
     throw createError({ statusCode: 400, message: "Email is required" });
   }
 
