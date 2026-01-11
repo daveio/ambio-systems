@@ -11,8 +11,12 @@ const MIN_COMPARE_LENGTH = 32;
  * - Whether strings match or not
  * - The length of the strings
  * - Whether strings are empty
+ * 
+ * @param a - First string to compare
+ * @param b - Second string to compare
+ * @returns true if strings are equal, false otherwise
  */
-function constantTimeEqual(a: string, b: string): boolean {
+export function constantTimeEqual(a: string, b: string): boolean {
   // Convert strings to buffers for constant-time comparison
   const bufferA = Buffer.from(a, "utf8");
   const bufferB = Buffer.from(b, "utf8");
@@ -48,11 +52,9 @@ export async function validateAdminApiKey(event: H3Event): Promise<boolean> {
   // Secrets Store requires async .get() call
   const storedKey = await cloudflare.env.ADMIN_API_KEY.get();
 
-  if (!storedKey || !providedKey) {
-    return false;
-  }
-
-  return constantTimeEqual(storedKey, providedKey);
+  // Use empty string if key is missing to maintain constant timing
+  // The constantTimeEqual function will handle empty strings securely
+  return constantTimeEqual(storedKey || "", providedKey || "");
 }
 
 export async function requireAdminAuth(event: H3Event): Promise<void> {
