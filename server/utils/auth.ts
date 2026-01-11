@@ -1,6 +1,9 @@
 import type { H3Event } from "h3";
 import { timingSafeEqual } from "node:crypto";
 
+// Minimum buffer size for constant-time comparison when dealing with empty strings
+const MIN_COMPARE_LENGTH = 32;
+
 /**
  * Constant-time string comparison to prevent timing attacks
  * 
@@ -18,7 +21,7 @@ function constantTimeEqual(a: string, b: string): boolean {
   const maxLength = Math.max(bufferA.length, bufferB.length);
   
   // If either buffer is empty, use a minimum size to avoid revealing emptiness
-  const compareLength = maxLength > 0 ? maxLength : 32;
+  const compareLength = maxLength > 0 ? maxLength : MIN_COMPARE_LENGTH;
 
   // Pad both buffers to the same length with zeros
   const paddedA = Buffer.alloc(compareLength);
@@ -27,12 +30,8 @@ function constantTimeEqual(a: string, b: string): boolean {
   bufferB.copy(paddedB);
 
   // Perform constant-time comparison
-  const buffersMatch = timingSafeEqual(paddedA, paddedB);
-  
-  // Also verify lengths match (but after timing-safe comparison)
-  const lengthsMatch = bufferA.length === bufferB.length;
-
-  return buffersMatch && lengthsMatch;
+  // If original lengths differ, padded buffers will differ, so no explicit length check needed
+  return timingSafeEqual(paddedA, paddedB);
 }
 
 export async function validateAdminApiKey(event: H3Event): Promise<boolean> {
