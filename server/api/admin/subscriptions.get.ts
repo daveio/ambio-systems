@@ -89,10 +89,18 @@ export default defineEventHandler(async (event) => {
           escapeCSV(row.city),
           escapeCSV(row.region),
           escapeCSV(row.timezone),
-          escapeCSV(row.latitude),
-          escapeCSV(row.longitude),
-          row.createdAt?.toISOString() || "",
-          row.updatedAt?.toISOString() || "",
+          row.latitude ?? "",
+          row.longitude ?? "",
+          row.createdAt instanceof Date
+            ? row.createdAt.toISOString()
+            : row.createdAt
+              ? new Date(row.createdAt).toISOString()
+              : "",
+          row.updatedAt instanceof Date
+            ? row.updatedAt.toISOString()
+            : row.updatedAt
+              ? new Date(row.updatedAt).toISOString()
+              : "",
         ].join(","),
       ),
     ];

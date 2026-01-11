@@ -2,6 +2,7 @@ import {
   sqliteTable,
   text,
   integer,
+  real,
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
 
@@ -19,8 +20,8 @@ export const subscriptions = sqliteTable(
     city: text("city"),
     region: text("region"),
     timezone: text("timezone"),
-    latitude: text("latitude"),
-    longitude: text("longitude"),
+    latitude: real("latitude"),
+    longitude: real("longitude"),
     createdAt: integer("created_at", { mode: "timestamp" })
       .notNull()
       .$defaultFn(() => new Date()),
