@@ -32,3 +32,8 @@ logs
 # macOS
 .DS_Store
 
+# Vars
+.env*
+!.env.example
+
+
