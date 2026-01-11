@@ -26,6 +26,10 @@ export default defineEventHandler(async (event) => {
 
   // Normalize email
   const normalizedEmail = body.email.toLowerCase().trim();
+  const MAX_EMAIL_LENGTH = 254;
+  if (normalizedEmail.length > MAX_EMAIL_LENGTH) {
+    throw createError({ statusCode: 400, message: "Email is too long" });
+  }
 
   // Check for existing subscription
   const existing = await db
