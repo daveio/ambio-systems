@@ -29,7 +29,8 @@ async function handleSubmit() {
       isSubmitted.value = true;
       email.value = "";
     } else {
-      errorMessage.value = response.message || "Something went wrong. Please try again.";
+      errorMessage.value =
+        response.message || "Something went wrong. Please try again.";
     }
   } catch {
     errorMessage.value = "Failed to submit. Please try again later.";
@@ -54,13 +55,22 @@ function resetForm() {
             <Icon name="ph:check-circle-bold" class="h-8 w-8 text-teal" />
           </div>
         </div>
-        <p class="text-lg font-medium" :class="isDark ? 'text-base-content/80' : 'text-base-content/90'">
+        <p
+          class="text-lg font-medium"
+          :class="isDark ? 'text-base-content/80' : 'text-base-content/90'"
+        >
           We'll be in touch.
         </p>
-        <p class="text-sm" :class="isDark ? 'text-base-content/50' : 'text-base-content/80'">
+        <p
+          class="text-sm"
+          :class="isDark ? 'text-base-content/50' : 'text-base-content/80'"
+        >
           Something is coming. You'll be among the first to know.
         </p>
-        <button class="btn btn-ghost btn-sm text-base-content/50 hover:text-base-content" @click="resetForm">
+        <button
+          class="btn btn-ghost btn-sm text-base-content/50 hover:text-base-content"
+          @click="resetForm"
+        >
           Submit another
         </button>
       </div>
@@ -73,7 +83,11 @@ function resetForm() {
             type="email"
             placeholder="your@email.com"
             class="input input-bordered join-item flex-1 bg-base-200/50 backdrop-blur-sm border-base-300 focus:border-primary focus:outline-none"
-            :class="isDark ? 'placeholder:text-base-content/30' : 'placeholder:text-base-content/50'"
+            :class="
+              isDark
+                ? 'placeholder:text-base-content/30'
+                : 'placeholder:text-base-content/50'
+            "
             :disabled="isSubmitting"
             autocomplete="email"
             required
@@ -98,7 +112,10 @@ function resetForm() {
           </p>
         </Transition>
 
-        <p class="text-xs text-center" :class="isDark ? 'text-base-content/40' : 'text-base-content/70'">
+        <p
+          class="text-xs text-center"
+          :class="isDark ? 'text-base-content/40' : 'text-base-content/70'"
+        >
           No spam. Just one email when we're ready.
         </p>
       </form>

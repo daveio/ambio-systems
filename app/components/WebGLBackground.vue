@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import type { Scene, PerspectiveCamera, WebGLRenderer, Points, Material } from "three";
+import type {
+  Scene,
+  PerspectiveCamera,
+  WebGLRenderer,
+  Points,
+  Material,
+} from "three";
 
 const container = ref<HTMLDivElement | null>(null);
 const { isDark } = useTheme();
@@ -57,7 +63,8 @@ function createParticles() {
     positions[i3 + 1] = (Math.random() - 0.5) * 20;
     positions[i3 + 2] = (Math.random() - 0.5) * 10 - 5;
 
-    const color = colorOptions[Math.floor(Math.random() * colorOptions.length)]!;
+    const color =
+      colorOptions[Math.floor(Math.random() * colorOptions.length)]!;
     particleColors[i3] = color.r;
     particleColors[i3 + 1] = color.g;
     particleColors[i3 + 2] = color.b;
@@ -98,7 +105,8 @@ function updateParticleColors() {
   const particleColors = colorAttr.array as Float32Array;
 
   for (let i = 0; i < particleCount; i++) {
-    const color = colorOptions[Math.floor(Math.random() * colorOptions.length)]!;
+    const color =
+      colorOptions[Math.floor(Math.random() * colorOptions.length)]!;
     const i3 = i * 3;
     particleColors[i3] = color.r;
     particleColors[i3 + 1] = color.g;
@@ -141,7 +149,12 @@ async function init() {
   scene.fog = new THREE.FogExp2(c.base, 0.04);
 
   // Camera
-  camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera = new THREE.PerspectiveCamera(
+    60,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000,
+  );
   camera.position.z = 5;
 
   // Renderer

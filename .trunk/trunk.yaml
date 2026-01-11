@@ -43,3 +43,11 @@ actions:
     - trunk-check-pre-push
     - trunk-fmt-pre-commit
     - trunk-upgrade-available
+  definitions:
+    - id: bun-install
+      display_name: Install dependencies with bun, trigger postinstall
+      description: Run bun install to ensure dependencies are up to date and postinstall runs
+      run: bun install
+      triggers:
+        - git_hooks:
+            - pre-commit

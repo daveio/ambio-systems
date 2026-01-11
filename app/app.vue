@@ -62,8 +62,12 @@ useHead({
     </div>
 
     <!-- Main Content -->
-    <main class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-16">
-      <div class="flex flex-col items-center gap-12 text-center max-w-2xl mx-auto">
+    <main
+      class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-16"
+    >
+      <div
+        class="flex flex-col items-center gap-12 text-center max-w-2xl mx-auto"
+      >
         <!-- Logo -->
         <div class="animate-fade-in">
           <AmbioLogo />
@@ -73,7 +77,11 @@ useHead({
         <div class="space-y-4 animate-fade-in-delay-1">
           <p
             class="text-xl md:text-2xl tracking-wide"
-            :class="isDark ? 'text-base-content/60 font-light' : 'text-base-content/80 font-normal'"
+            :class="
+              isDark
+                ? 'text-base-content/60 font-light'
+                : 'text-base-content/80 font-normal'
+            "
           >
             Something is listening.
           </p>
@@ -82,7 +90,9 @@ useHead({
         <!-- Email Form -->
         <div class="w-full animate-fade-in-delay-2">
           <div class="space-y-6">
-            <h2 class="text-base-content/80 text-lg font-medium">Want to get updates?</h2>
+            <h2 class="text-base-content/80 text-lg font-medium">
+              Want to get updates?
+            </h2>
             <EmailForm />
           </div>
         </div>
@@ -99,7 +109,9 @@ useHead({
 
     <!-- Ambient glow effect -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden -z-5">
-      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-mauve/5 rounded-full blur-3xl animate-pulse-slow" />
+      <div
+        class="absolute top-1/4 left-1/4 w-96 h-96 bg-mauve/5 rounded-full blur-3xl animate-pulse-slow"
+      />
       <div
         class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-sapphire/5 rounded-full blur-3xl animate-pulse-slow-delay"
       />
