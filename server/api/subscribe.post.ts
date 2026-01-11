@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { subscriptions } from "../database/schema";
 import { useDB } from "../utils/db";
+import { applyRateLimit } from "../utils/rateLimit";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ email: string }>(event);
@@ -15,13 +16,16 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: "Invalid email format" });
   }
 
+  // Rate limiting - use IP address as key
+  const ipAddress =
+    getHeader(event, "cf-connecting-ip") || getHeader(event, "x-forwarded-for") || "unknown";
+  await applyRateLimit(event, `subscribe:${ipAddress}`);
+
   const db = useDB(event);
   const { cloudflare } = event.context;
   const cf = cloudflare.cf; // Geolocation data
 
   // Extract metadata
-  const ipAddress =
-    getHeader(event, "cf-connecting-ip") || getHeader(event, "x-forwarded-for");
   const userAgent = getHeader(event, "user-agent");
 
   // Normalize email

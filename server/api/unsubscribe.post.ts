@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { subscriptions } from "../database/schema";
 import { useDB } from "../utils/db";
+import { applyRateLimit } from "../utils/rateLimit";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ email: string }>(event);
@@ -8,6 +9,11 @@ export default defineEventHandler(async (event) => {
   if (!body.email) {
     throw createError({ statusCode: 400, message: "Email is required" });
   }
+
+  // Rate limiting - use IP address as key
+  const ipAddress =
+    getHeader(event, "cf-connecting-ip") || getHeader(event, "x-forwarded-for") || "unknown";
+  await applyRateLimit(event, `unsubscribe:${ipAddress}`);
 
   const db = useDB(event);
   const normalizedEmail = body.email.toLowerCase().trim();
