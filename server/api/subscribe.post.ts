@@ -2,6 +2,7 @@ import { eq } from "drizzle-orm";
 import { subscriptions } from "../database/schema";
 import { useDB } from "../utils/db";
 import { applyRateLimit } from "../utils/rateLimit";
+import { getClientIp } from "../utils/ip";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ email: string }>(event);
@@ -17,8 +18,7 @@ export default defineEventHandler(async (event) => {
   }
 
   // Rate limiting - use IP address as key
-  const ipAddress =
-    getHeader(event, "cf-connecting-ip") || getHeader(event, "x-forwarded-for") || "unknown";
+  const ipAddress = getClientIp(event);
   await applyRateLimit(event, `subscribe:${ipAddress}`);
 
   const db = useDB(event);
