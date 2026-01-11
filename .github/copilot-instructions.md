@@ -22,6 +22,12 @@ trunk check          # Run all linters
 trunk fmt            # Auto-format code
 trunk check --fix    # Fix auto-fixable issues
 
+# Database (Drizzle + D1)
+bun run db:generate       # Generate migrations from schema changes
+bun run db:migrate:local  # Apply migrations to local D1
+bun run db:migrate:remote # Apply migrations to remote D1
+bun run db:studio         # Open Drizzle Studio
+
 # Install dependencies
 bun install          # Uses bun@1.3.5 (enforced via packageManager field)
 ```
@@ -33,6 +39,8 @@ bun install          # Uses bun@1.3.5 (enforced via packageManager field)
 - **Nuxt 4** with Vue 3 Composition API
 - **Tailwind CSS v4** with DaisyUI v5 (uses new `@plugin` syntax in CSS, not JS config)
 - **Three.js** for WebGL particle background
+- **Cloudflare D1** with Drizzle ORM for database
+- **Cloudflare Secrets Store** for secure API key storage
 - **Bun** as package manager (v1.3.5)
 
 ### Directory Structure
@@ -45,7 +53,17 @@ app/
 ├── composables/         # Shared state (useTheme)
 └── plugins/             # Client plugins (theme initialization)
 server/
-└── api/                 # Nitro server routes
+├── api/                 # Nitro server routes
+│   ├── subscribe.post.ts    # Email subscription endpoint
+│   ├── unsubscribe.post.ts  # Email unsubscribe endpoint
+│   └── admin/
+│       └── subscriptions.get.ts  # Admin API (list/export subscriptions)
+├── database/
+│   └── schema.ts        # Drizzle schema definition
+└── utils/
+    ├── db.ts            # Database utility (useDB)
+    └── auth.ts          # Admin auth utility (requireAdminAuth)
+drizzle/                 # Generated SQL migrations
 public/
 └── images/              # Static assets (logo variants)
 ```
@@ -73,7 +91,23 @@ The WebGL background (`WebGLBackground.vue`) also uses Catppuccin colors and wat
 
 Nitro API routes follow the convention `server/api/[name].[method].ts`:
 
-- `subscribe.post.ts` - Email subscription endpoint (currently a stub)
+- `subscribe.post.ts` - Email subscription endpoint with rate limiting and validation
+- `unsubscribe.post.ts` - Email unsubscribe endpoint with privacy protections
+- `admin/subscriptions.get.ts` - Admin API (list/export subscriptions, requires API key)
+
+#### Security Features
+
+The subscription system includes several security and privacy measures:
+
+- **Rate Limiting**: Uses Cloudflare KV for distributed rate limiting (5 requests per 60 seconds per IP).
+  - **Configuration Required**: Add a KV namespace binding named `RATE_LIMIT_KV` in your wrangler.toml
+  - Gracefully degrades if KV is not configured (logs warning, allows requests)
+  - For production, also consider Cloudflare's dashboard-level rate limiting rules
+- **Email Validation**: RFC-compliant regex pattern validation with length checks (max 254 characters).
+- **Geolocation Data Validation**: Type guards ensure proper data types before database insertion.
+- **Timing Attack Prevention**: Admin API key validation uses constant-time comparison (`timingSafeEqual`).
+- **Privacy Protection**: Unsubscribe endpoint returns generic success messages to prevent email enumeration.
+- **Opt-in Only**: Previously unsubscribed users cannot be auto-reactivated; they must contact support.
 
 ### Client-Only Rendering
 

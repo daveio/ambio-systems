@@ -9,7 +9,11 @@
     "preview": "bun run build && wrangler dev",
     "postinstall": "nuxt prepare && wrangler types",
     "deploy": "bun run build && wrangler deploy",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply ambio-systems --local",
+    "db:migrate:remote": "wrangler d1 migrations apply ambio-systems --remote",
+    "db:studio": "drizzle-kit studio"
   },
   "packageManager": "bun@1.3.5",
   "dependencies": {
@@ -24,6 +28,7 @@
     "@types/three": "^0.182.0",
     "@unhead/vue": "^2.1.1",
     "daisyui": "^5.5.14",
+    "drizzle-orm": "^0.45.1",
     "eslint": "^9.39.2",
     "nuxt": "^4.2.2",
     "tailwindcss": "^4.1.18",
@@ -33,6 +38,7 @@
   },
   "devDependencies": {
     "@types/node": "^25.0.4",
+    "drizzle-kit": "^0.31.8",
     "nitro-cloudflare-dev": "^0.2.2",
     "nitropack": "^2.13.0",
     "wrangler": "^4.58.0"
