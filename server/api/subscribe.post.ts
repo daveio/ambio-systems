@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { subscriptions } from "../database/schema";
 import { useDB } from "../utils/db";
+import { validateGeolocationData } from "../utils/geolocation";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ email: string }>(event);
@@ -17,7 +18,9 @@ export default defineEventHandler(async (event) => {
 
   const db = useDB(event);
   const { cloudflare } = event.context;
-  const cf = cloudflare.cf; // Geolocation data
+
+  // Extract and validate geolocation data
+  const geolocation = validateGeolocationData(cloudflare.cf);
 
   // Extract metadata
   const ipAddress =
@@ -44,12 +47,7 @@ export default defineEventHandler(async (event) => {
         // Update location data in case it changed
         ipAddress,
         userAgent,
-        country: cf?.country as string | undefined,
-        city: cf?.city as string | undefined,
-        region: cf?.region as string | undefined,
-        timezone: cf?.timezone as string | undefined,
-        latitude: cf?.latitude as string | undefined,
-        longitude: cf?.longitude as string | undefined,
+        ...geolocation,
       })
       .where(eq(subscriptions.email, normalizedEmail));
 
@@ -61,12 +59,7 @@ export default defineEventHandler(async (event) => {
     email: normalizedEmail,
     ipAddress,
     userAgent,
-    country: cf?.country as string | undefined,
-    city: cf?.city as string | undefined,
-    region: cf?.region as string | undefined,
-    timezone: cf?.timezone as string | undefined,
-    latitude: cf?.latitude as string | undefined,
-    longitude: cf?.longitude as string | undefined,
+    ...geolocation,
   });
 
   return { success: true, message: "Successfully subscribed" };
