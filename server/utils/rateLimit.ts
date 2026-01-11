@@ -1,4 +1,5 @@
 import type { H3Event } from "h3";
+import { createError } from "h3";
 
 /**
  * Apply rate limiting to an endpoint using Cloudflare's Rate Limiting API
