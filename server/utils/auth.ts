@@ -43,18 +43,17 @@ export async function validateAdminApiKey(event: H3Event): Promise<boolean> {
 
   // Get API key from Authorization header
   const authHeader = getHeader(event, "authorization");
-  if (!authHeader?.startsWith("Bearer ")) {
-    return false;
-  }
-
-  const providedKey = authHeader.substring(7);
+  
+  // Extract key or use empty string to maintain constant timing
+  const providedKey =
+    authHeader?.startsWith("Bearer ") ? authHeader.substring(7) : "";
 
   // Secrets Store requires async .get() call
   const storedKey = await cloudflare.env.ADMIN_API_KEY.get();
 
   // Use empty string if key is missing to maintain constant timing
   // The constantTimeEqual function will handle empty strings securely
-  return constantTimeEqual(storedKey || "", providedKey || "");
+  return constantTimeEqual(storedKey || "", providedKey);
 }
 
 export async function requireAdminAuth(event: H3Event): Promise<void> {
