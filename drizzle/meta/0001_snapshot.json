@@ -103,9 +103,7 @@
       "indexes": {
         "subscriptions_email_idx": {
           "name": "subscriptions_email_idx",
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": true
         }
       },
