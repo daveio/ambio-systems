@@ -71,10 +71,11 @@ export async function checkRateLimit(
     }
 
     // Increment counter
+    const ttl = current.resetAt - now;
     await kv.put(
       key,
       JSON.stringify({ count: current.count + 1, resetAt: current.resetAt }),
-      { expirationTtl: config.window },
+      { expirationTtl: ttl > 0 ? ttl : config.window },
     );
 
     return true;
