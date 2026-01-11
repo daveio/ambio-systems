@@ -99,7 +99,7 @@ Nitro API routes follow the convention `server/api/[name].[method].ts`:
 
 The subscription system includes several security and privacy measures:
 
-- **Rate Limiting**: Uses Cloudflare KV for distributed rate limiting (5 requests per 60 seconds per IP). 
+- **Rate Limiting**: Uses Cloudflare KV for distributed rate limiting (5 requests per 60 seconds per IP).
   - **Configuration Required**: Add a KV namespace binding named `RATE_LIMIT_KV` in your wrangler.toml
   - Gracefully degrades if KV is not configured (logs warning, allows requests)
   - For production, also consider Cloudflare's dashboard-level rate limiting rules
