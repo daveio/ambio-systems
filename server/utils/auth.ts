@@ -1,4 +1,22 @@
 import type { H3Event } from "h3";
+import { timingSafeEqual } from "node:crypto";
+
+/**
+ * Constant-time string comparison to prevent timing attacks
+ */
+function constantTimeEqual(a: string, b: string): boolean {
+  // Early return if lengths differ (this itself is not timing-safe,
+  // but if lengths differ, the keys are definitely not equal)
+  if (a.length !== b.length) {
+    return false;
+  }
+
+  // Convert strings to buffers for constant-time comparison
+  const bufferA = Buffer.from(a, "utf8");
+  const bufferB = Buffer.from(b, "utf8");
+
+  return timingSafeEqual(bufferA, bufferB);
+}
 
 export async function validateAdminApiKey(event: H3Event): Promise<boolean> {
   const { cloudflare } = event.context;
@@ -18,7 +36,7 @@ export async function validateAdminApiKey(event: H3Event): Promise<boolean> {
     return false;
   }
 
-  return storedKey === providedKey;
+  return constantTimeEqual(storedKey, providedKey);
 }
 
 export async function requireAdminAuth(event: H3Event): Promise<void> {
