@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
 
   const db = useDB(event);
   const { cloudflare } = event.context;
-  const cf = cloudflare.cf; // Geolocation data
+  const { cf } = cloudflare; // Geolocation data
 
   // Extract metadata
   const ipAddress =
@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
     if (typeof value === "number") return value;
     if (typeof value === "string") {
       const num = parseFloat(value);
-      return !isNaN(num) ? num : undefined;
+      return isNaN(num) ? undefined : num;
     }
     return undefined;
   };
