@@ -29,10 +29,10 @@ function isString(value: unknown): value is string {
 }
 
 /**
- * Type guard to check if a value is a number.
+ * Type guard to check if a value is a valid number (not NaN).
  */
 function isNumber(value: unknown): value is number {
-  return typeof value === "number" && !isNaN(value);
+  return typeof value === "number" && !Number.isNaN(value);
 }
 
 /**
