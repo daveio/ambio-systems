@@ -1,16 +1,15 @@
 import { eq } from "drizzle-orm";
 import { subscriptions } from "../database/schema";
 import { useDB } from "../utils/db";
+import { validateAndNormalizeEmail } from "../utils/validation";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ email: string }>(event);
 
-  if (!body.email) {
-    throw createError({ statusCode: 400, message: "Email is required" });
-  }
+  // Validate and normalize email (throws if invalid)
+  const normalizedEmail = validateAndNormalizeEmail(body.email);
 
   const db = useDB(event);
-  const normalizedEmail = body.email.toLowerCase().trim();
 
   // Check if subscription exists
   const existing = await db

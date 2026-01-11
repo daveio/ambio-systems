@@ -1,19 +1,13 @@
 import { eq } from "drizzle-orm";
 import { subscriptions } from "../database/schema";
 import { useDB } from "../utils/db";
+import { validateAndNormalizeEmail } from "../utils/validation";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ email: string }>(event);
 
-  // Validation
-  if (!body.email) {
-    throw createError({ statusCode: 400, message: "Email is required" });
-  }
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(body.email)) {
-    throw createError({ statusCode: 400, message: "Invalid email format" });
-  }
+  // Validate and normalize email (throws if invalid)
+  const normalizedEmail = validateAndNormalizeEmail(body.email);
 
   const db = useDB(event);
   const { cloudflare } = event.context;
@@ -23,9 +17,6 @@ export default defineEventHandler(async (event) => {
   const ipAddress =
     getHeader(event, "cf-connecting-ip") || getHeader(event, "x-forwarded-for");
   const userAgent = getHeader(event, "user-agent");
-
-  // Normalize email
-  const normalizedEmail = body.email.toLowerCase().trim();
 
   // Check for existing subscription
   const existing = await db
