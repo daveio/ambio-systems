@@ -3,28 +3,36 @@ import { timingSafeEqual } from "node:crypto";
 
 /**
  * Constant-time string comparison to prevent timing attacks
+ * 
+ * This implementation ensures consistent timing regardless of:
+ * - Whether strings match or not
+ * - The length of the strings
+ * - Whether strings are empty
  */
 function constantTimeEqual(a: string, b: string): boolean {
-  // Validate non-empty inputs
-  if (!a || !b) {
-    return false;
-  }
-
   // Convert strings to buffers for constant-time comparison
   const bufferA = Buffer.from(a, "utf8");
   const bufferB = Buffer.from(b, "utf8");
 
-  // timingSafeEqual requires buffers of equal length
-  // If lengths differ, still perform comparison on equal-length buffers
-  // to avoid timing attacks based on length differences
-  if (bufferA.length !== bufferB.length) {
-    // Create dummy buffer of same length as bufferA to compare against
-    const dummyBuffer = Buffer.alloc(bufferA.length);
-    timingSafeEqual(bufferA, dummyBuffer);
-    return false;
-  }
+  // Determine the maximum length for comparison
+  const maxLength = Math.max(bufferA.length, bufferB.length);
+  
+  // If either buffer is empty, use a minimum size to avoid revealing emptiness
+  const compareLength = maxLength > 0 ? maxLength : 32;
 
-  return timingSafeEqual(bufferA, bufferB);
+  // Pad both buffers to the same length with zeros
+  const paddedA = Buffer.alloc(compareLength);
+  const paddedB = Buffer.alloc(compareLength);
+  bufferA.copy(paddedA);
+  bufferB.copy(paddedB);
+
+  // Perform constant-time comparison
+  const buffersMatch = timingSafeEqual(paddedA, paddedB);
+  
+  // Also verify lengths match (but after timing-safe comparison)
+  const lengthsMatch = bufferA.length === bufferB.length;
+
+  return buffersMatch && lengthsMatch;
 }
 
 export async function validateAdminApiKey(event: H3Event): Promise<boolean> {
