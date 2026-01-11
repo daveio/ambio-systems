@@ -36,4 +36,9 @@ logs
 # macOS
 .DS_Store
 
+# Wrangler
 .wrangler/
+
+# Vars
+.env*
+!.env.example
