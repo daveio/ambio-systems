@@ -43,6 +43,7 @@ actions:
     - trunk-check-pre-push
     - trunk-fmt-pre-commit
     - trunk-upgrade-available
+    - bun-install
   definitions:
     - id: bun-install
       display_name: Install dependencies with bun, trigger postinstall
