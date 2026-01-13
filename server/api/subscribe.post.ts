@@ -23,35 +23,11 @@ export default defineEventHandler(async (event) => {
   }
 
   const db = useDB(event);
-  const { cloudflare } = event.context;
-  const { cf } = cloudflare; // Geolocation data
 
   // Extract metadata
   const ipAddress =
     getHeader(event, "cf-connecting-ip") || getHeader(event, "x-forwarded-for");
   const userAgent = getHeader(event, "user-agent");
-
-  // Type guards for geolocation data
-  const getString = (value: unknown): string | undefined => {
-    return typeof value === "string" ? value : undefined;
-  };
-
-  const getNumber = (value: unknown): number | undefined => {
-    if (typeof value === "number") return value;
-    if (typeof value === "string") {
-      const num = parseFloat(value);
-      return isNaN(num) ? undefined : num;
-    }
-    return undefined;
-  };
-
-  // Extract and validate geolocation data
-  const country = getString(cf?.country);
-  const city = getString(cf?.city);
-  const region = getString(cf?.region);
-  const timezone = getString(cf?.timezone);
-  const latitude = getNumber(cf?.latitude);
-  const longitude = getNumber(cf?.longitude);
 
   // Normalize email
   const normalizedEmail = body.email.toLowerCase().trim();
@@ -69,26 +45,13 @@ export default defineEventHandler(async (event) => {
       email: normalizedEmail,
       ipAddress,
       userAgent,
-      country,
-      city,
-      region,
-      timezone,
-      latitude,
-      longitude,
     })
     .onConflictDoUpdate({
       target: subscriptions.email,
       set: {
         updatedAt: new Date(),
-        // Update location data in case it changed (but don't change status)
         ipAddress,
         userAgent,
-        country,
-        city,
-        region,
-        timezone,
-        latitude,
-        longitude,
       },
     });
 

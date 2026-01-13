@@ -56,12 +56,6 @@ export default defineEventHandler(async (event) => {
       "status",
       "ip_address",
       "user_agent",
-      "country",
-      "city",
-      "region",
-      "timezone",
-      "latitude",
-      "longitude",
       "created_at",
       "updated_at",
     ];
@@ -85,12 +79,6 @@ export default defineEventHandler(async (event) => {
           row.status,
           escapeCSV(row.ipAddress),
           escapeCSV(row.userAgent),
-          escapeCSV(row.country),
-          escapeCSV(row.city),
-          escapeCSV(row.region),
-          escapeCSV(row.timezone),
-          row.latitude ?? "",
-          row.longitude ?? "",
           row.createdAt instanceof Date
             ? row.createdAt.toISOString()
             : row.createdAt
