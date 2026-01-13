@@ -91,14 +91,14 @@ function resetForm() {
             :disabled="isSubmitting"
             autocomplete="email"
             required
-          />
+          >
           <button
             type="submit"
             class="btn join-item bg-primary hover:bg-primary/80 border-primary text-primary-content"
             :disabled="isSubmitting || !email"
           >
             <template v-if="isSubmitting">
-              <span class="loading loading-spinner loading-sm"></span>
+              <span class="loading loading-spinner loading-sm"/>
             </template>
             <template v-else>
               <span>Notify me</span>

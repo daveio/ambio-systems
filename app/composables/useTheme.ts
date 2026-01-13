@@ -17,7 +17,7 @@ export function useTheme() {
     });
   }
 
-  function setTheme(newTheme: Theme) {
+  const setTheme = (newTheme: Theme) => {
     theme.value = newTheme;
     if (import.meta.client) {
       document.documentElement.setAttribute("data-theme", newTheme);
@@ -28,11 +28,11 @@ export function useTheme() {
         // Theme still works via DOM attribute, just won't persist
       }
     }
-  }
+  };
 
-  function toggleTheme() {
+  const toggleTheme = () => {
     setTheme(theme.value === "dark" ? "light" : "dark");
-  }
+  };
 
   return {
     theme,
