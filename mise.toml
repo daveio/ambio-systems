@@ -3,7 +3,11 @@ AMBIO_MISE_ACTIVE = 'true'
 
 [settings]
 env_file = '.env'
-idiomatic_version_file_enable_tools = []
+
+[tools]
+claude = { version = '2.1.22' }
+codex = { version = '0.92.0' }
+gemini = { version = '0.26.0' }
 
 [tasks]
 'cc' = { run = "claude", description = "Invoke Claude Code" }
