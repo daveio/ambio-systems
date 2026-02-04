@@ -1,10 +1,9 @@
 [env]
-AMBIO_MISE_ACTIVE = 'true'
+AMBIO_SYSTEMS_MISE_ACTIVE = 'true'
 
 [settings]
 env_file = '.env'
 
 # [tools]
 
-[tasks]
-'cc' = { run = "claude", description = "Invoke Claude Code" }
+# [tasks]
