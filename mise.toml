@@ -4,10 +4,7 @@ AMBIO_MISE_ACTIVE = 'true'
 [settings]
 env_file = '.env'
 
-[tools]
-claude = { version = '2.1.22' }
-codex = { version = '0.92.0' }
-gemini = { version = '0.26.0' }
+# [tools]
 
 [tasks]
 'cc' = { run = "claude", description = "Invoke Claude Code" }
