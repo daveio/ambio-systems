@@ -1,29 +1,12 @@
 {
-  "name": "ambio",
-  "type": "module",
-  "private": true,
-  "scripts": {
-    "build": "bun run nuxt build",
-    "generate": "bun run nuxt generate",
-    "prepare": "bun run nuxt prepare",
-    "dev": "bun run run-s build dev:wrangler",
-    "dev:wrangler": "bun run wrangler dev",
-    "format": "bun run run-s format:prettier format:trunk",
-    "format:prettier": "bun run prettier --write .",
-    "format:trunk": "bun run trunk fmt -a",
-    "postinstall": "bun run run-s prepare cf-typegen format",
-    "deploy": "bun run run-s build deploy:wrangler",
-    "deploy:wrangler": "bun run wrangler deploy",
-    "cf-typegen": "bun run wrangler types",
-    "db:generate": "bun run drizzle-kit generate",
-    "db:migrate:local": "bun run wrangler d1 migrations apply ambio-systems --local",
-    "db:migrate:remote": "bun run wrangler d1 migrations apply ambio-systems --remote",
-    "db:studio": "bun run drizzle-kit studio"
+  "author": {
+    "email": "dave@dave.io",
+    "name": "Dave Williams",
+    "url": "https://github.com/daveio"
   },
-  "packageManager": "bun@1.3.7",
   "dependencies": {
     "@nuxt/a11y": "^1.0.0-alpha.1",
-    "@nuxt/eslint": "^1.13.0",
+    "@nuxt/eslint": "^1.15.1",
     "@nuxt/fonts": "^0.13.0",
     "@nuxt/hints": "^1.0.0-alpha.6",
     "@nuxt/icon": "^2.2.1",
@@ -31,29 +14,55 @@
     "@nuxt/scripts": "^0.13.2",
     "@tailwindcss/vite": "^4.1.18",
     "@types/three": "^0.182.0",
-    "@unhead/vue": "^2.1.2",
-    "daisyui": "^5.5.14",
+    "@unhead/vue": "^2.1.4",
+    "daisyui": "^5.5.18",
     "drizzle-orm": "^0.45.1",
     "eslint": "^10.0.0",
-    "nuxt": "^4.3.0",
+    "nuxt": "^4.3.1",
     "tailwindcss": "^4.1.18",
     "three": "^0.182.0",
-    "vue": "^3.5.27",
-    "vue-router": "^5.0.1"
+    "vue": "^3.5.28",
+    "vue-router": "^5.0.2"
   },
   "devDependencies": {
-    "@anthropic-ai/claude-code": "^2.1.22",
+    "@anthropic-ai/claude-code": "^2.1.42",
     "@trunkio/launcher": "^1.3.4",
-    "@types/node": "^25.0.10",
-    "drizzle-kit": "^0.31.8",
+    "@types/node": "^25.2.3",
+    "drizzle-kit": "^0.31.9",
     "nitro-cloudflare-dev": "^0.2.2",
     "nitropack": "^2.13.1",
+    "node-gyp": "^12.2.0",
     "npm-run-all2": "^8.0.4",
     "prettier": "^3.8.1",
-    "wrangler": "^4.61.0"
+    "wrangler": "^4.65.0"
+  },
+  "name": "ambio",
+  "packageManager": "bun@1.3.9",
+  "private": true,
+  "scripts": {
+    "build": "bun run nuxt build",
+    "cf-typegen": "bun run wrangler types",
+    "db:generate": "bun run drizzle-kit generate",
+    "db:migrate:local": "bun run wrangler d1 migrations apply ambio-systems --local",
+    "db:migrate:remote": "bun run wrangler d1 migrations apply ambio-systems --remote",
+    "db:studio": "bun run drizzle-kit studio",
+    "deploy": "bun run run-s build deploy:wrangler",
+    "deploy:wrangler": "bun run wrangler deploy",
+    "dev": "bun run run-s build dev:wrangler",
+    "dev:wrangler": "bun run wrangler dev",
+    "format": "bun run run-s format:prettier format:trunk",
+    "format:prettier": "bun run prettier --write .",
+    "format:trunk": "bun run trunk fmt -a",
+    "generate": "bun run nuxt generate",
+    "postinstall": "bun run run-s prepare cf-typegen format",
+    "prepare": "bun run nuxt prepare"
   },
   "trustedDependencies": [
     "@parcel/watcher",
-    "unrs-resolver"
-  ]
+    "esbuild",
+    "sharp",
+    "unrs-resolver",
+    "workerd"
+  ],
+  "type": "module"
 }

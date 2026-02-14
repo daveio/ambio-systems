@@ -18,11 +18,11 @@ runtimes:
 lint:
   enabled:
     - oxipng@10.0.0
-    - eslint@9.39.2
+    - eslint@10.0.0
     - osv-scanner@2.3.1
     - actionlint@1.7.10
     - taplo@0.10.0
-    - checkov@3.2.500
+    - checkov@3.2.501
     - git-diff-check
     - markdownlint@0.47.0
     - prettier@3.8.1
